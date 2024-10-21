@@ -6,6 +6,9 @@
 
 ## 使用示例
 
+<details>
+<summary>点击查看代码示例</summary>
+
 ```vue
 <template>
 	<JinForm :model="formModel" :rules="formRules">
@@ -45,3 +48,5 @@ export default {
 };
 </script>
 ```
+
+</details>

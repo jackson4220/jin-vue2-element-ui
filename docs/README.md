@@ -20,7 +20,8 @@
 
 ## 组件列表
 
-- [MyButton](./components/my-button.md)
+- [JinTable](./components/JinTable.md)
+- [JinForm](./components/JinForm.md)
 
 # 组件文档
 

@@ -3,19 +3,21 @@ module.exports = {
 	description: 'A custom component library based on Element UI',
 	themeConfig: {
 		nav: [
-			{ text: 'Home', link: '/' },
-			{ text: 'Components', link: '/components/' },
+			{ text: '首页', link: '/' },
+			{ text: '组件', link: '/components/' },
 		],
-		sidebar: [
-			{
-				title: '组件',
-				collapsable: false,
-				children: [
-					'/components/JinTable',
-					'/components/JinForm',
-					// 如果有其他组件，继续添加
-				],
-			},
-		],
+		sidebar: {
+			'/components/': [
+				{
+					title: '组件',
+					collapsable: false,
+					children: [
+						'JinTable',
+						'JinForm',
+						// 如果有其他组件，继续添加
+					],
+				},
+			],
+		},
 	},
 };
