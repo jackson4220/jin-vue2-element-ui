@@ -6,16 +6,13 @@
 
 <script>
 export default {
-	name: 'CustomForm',
-	props: {
-		form: {
-			type: Object,
-			required: true,
-		},
-		rules: {
-			type: Object,
-			default: () => ({}),
-		},
+	name: 'JinForm',
+	props: {},
+	data() {
+		return {
+			form: {},
+			rules: {},
+		};
 	},
 	methods: {
 		validate(callback) {

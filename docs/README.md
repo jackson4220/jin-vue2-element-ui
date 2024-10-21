@@ -1,29 +1,49 @@
-# My Component Library
+---
+home: true
+heroImage: /hero.png
+actionText: 快速开始 →
+actionLink: /components/Form/JinForm
+features:
+  - title: 简洁至上
+    details: 以简洁易用为核心，提供高效的组件库。
+  - title: Vue 驱动
+    details: 基于 Vue 2 和 Element UI 二次封装。
+  - title: 高性能
+    details: 优化性能，提升用户体验。
+footer: MIT Licensed | Copyright © 2023-present Jin Component Library
+---
 
-欢迎使用我的组件库！这是一个基于 Element UI 的自定义组件库。
+# Jin 组件库
 
-## 快速开始
+## 介绍
 
-1. 安装依赖：
+基于 Vue 2 和 Element UI 二次封装的组件库，方便工作中的使用。
 
-   ```bash
-   npm install
-   ```
+## 特性
 
-2. 运行文档：
+- **简洁易用**：提供简洁易用的接口，方便快速开发。
+- **高性能**：优化性能，提升用户体验。
+- **Vue 驱动**：基于 Vue 2 和 Element UI 二次封装。
 
-   ```bash
-   npm run docs:dev
-   ```
+## 安装
 
-3. 浏览器中访问 `http://localhost:8080` 查看文档。
+```bash
+npm install jin-component-library
+```
 
-## 组件列表
+## 使用
 
-- [JinTable](./components/JinTable.md)
-- [JinForm](./components/JinForm.md)
+```javascript
+import JinComponentLibrary from 'jin-component-library';
+import 'jin-component-library/dist/jin-component-library.css';
 
-# 组件文档
+Vue.use(JinComponentLibrary);
+```
 
-- [JinTable](./components/JinTable.md)
-- [JinForm](./components/JinForm.md)
+## 贡献
+
+欢迎贡献代码，提出问题和建议。请查看 [GitHub 仓库](https://github.com/your-repo) 了解更多信息。
+
+## 许可证
+
+[MIT](https://opensource.org/licenses/MIT)

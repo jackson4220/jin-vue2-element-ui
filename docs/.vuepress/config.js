@@ -4,20 +4,38 @@ module.exports = {
 	themeConfig: {
 		nav: [
 			{ text: '首页', link: '/' },
-			{ text: '组件', link: '/components/' },
+			{ text: '组件', link: '/components/Form/JinForm' },
 		],
 		sidebar: {
 			'/components/': [
 				{
 					title: '组件',
-					collapsable: false,
+					collapsable: true,
 					children: [
-						'JinTable',
-						'JinForm',
+						'/components/Form/JinForm',
+						'/components/Table/JinTable',
 						// 如果有其他组件，继续添加
 					],
 				},
 			],
+			'/components/Form/': [
+				{
+					title: 'Form',
+					collapsable: false,
+					children: ['JinForm'],
+				},
+			],
+			'/components/Table/': [
+				{
+					title: 'Table',
+					collapsable: false,
+					children: ['JinTable'],
+				},
+			],
 		},
+	},
+	plugins: ['demo-container'],
+	chainWebpack(config) {
+		config.resolve.alias.set('core-js/library/fn', 'core-js/features');
 	},
 };
