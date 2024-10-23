@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import * as Regexp from '../JinUtils/modules/regexp';
+import * as Regexp from '~/js';
 // import JinForm from '../JinForm/src/index.vue';
 export default {
 	/* components: {
@@ -164,13 +164,13 @@ export default {
 					span: 24,
 					item: { labelColStyle: { display: 'none' } },
 				},
-				/* {
+				{
 					type: 'textarea',
 					label: '备注',
 					field: 'remark',
 					span: 24,
 					item: { extra: '这里是额外信息' },
-				}, */
+				},
 				{
 					type: 'upload',
 					label: '附件',
