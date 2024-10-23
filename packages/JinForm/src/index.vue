@@ -30,7 +30,7 @@
 								:is="`el-${item.type}`"
 								v-bind="getComponentBindProps(item)"
 								:value="value[item.field]"
-								@update:value="valueChange($event, item.field)"
+								@change="valueChange($event, item.field)"
 							></component>
 						</slot>
 						<slot v-else name="group-title">
@@ -76,6 +76,7 @@
 import { cloneDeep } from 'lodash';
 
 export default {
+	name: 'JinForm',
 	props: {
 		value: {
 			type: Object,
@@ -224,6 +225,6 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<!-- <style lang="scss" scoped>
 /* 这里可以添加你的样式 */
-</style>
+</style> -->

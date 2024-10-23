@@ -6,7 +6,7 @@
 
 <script>
 export default {
-	name: 'CustomTable',
+	name: 'JinTable',
 	props: {
 		data: {
 			type: Array,

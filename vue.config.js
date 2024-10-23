@@ -26,5 +26,21 @@ module.exports = defineConfig({
 				maxAssetSize: 30000000,
 			};
 		}
+
+		// 更新sass-loader配置
+		config.module.rules.forEach((rule) => {
+			if (rule.test.toString().includes('scss')) {
+				rule.use = [
+					'style-loader',
+					'css-loader',
+					{
+						loader: 'sass-loader',
+						options: {
+							implementation: require('sass'), // 使用新的API
+						},
+					},
+				];
+			}
+		});
 	},
 });

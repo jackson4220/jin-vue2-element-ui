@@ -1,20 +1,26 @@
 <template>
 	<div>
 		<JinForm
-			:model="form"
+			v-model="form"
 			ref="form"
-			:rules="rules"
 			label-width="80px"
 			:inline="false"
 			size="normal"
+			:options="options"
+			:columns="columns"
 		>
+			<!-- :rules="rules" -->
 		</JinForm>
 	</div>
 </template>
 
 <script>
-import * as Regexp from '@/JinUtils/modules/regexp';
+import * as Regexp from '../JinUtils/modules/regexp';
+// import JinForm from '../JinForm/src/index.vue';
 export default {
+	/* components: {
+		JinForm,
+	}, */
 	data() {
 		return {
 			form: {
@@ -158,13 +164,13 @@ export default {
 					span: 24,
 					item: { labelColStyle: { display: 'none' } },
 				},
-				{
+				/* {
 					type: 'textarea',
 					label: '备注',
 					field: 'remark',
 					span: 24,
 					item: { extra: '这里是额外信息' },
-				},
+				}, */
 				{
 					type: 'upload',
 					label: '附件',

@@ -1,7 +1,9 @@
 import JinForm from './JinForm';
 import JinTable from './JinTable';
 
-import { version } from '../package.json';
+import pkg from '../package.json'; // 使用默认导出
+const { version } = pkg; // 解构获取 version
+
 // 存储组件列表
 const components = [JinForm, JinTable];
 
