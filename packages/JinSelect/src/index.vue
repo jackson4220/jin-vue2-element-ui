@@ -18,24 +18,23 @@
 			@clear="handlerClear"
 			@change="selectChange"
 			@focus="handleFocus"
-			:size="size"
 		>
 			<template>
 				<div v-if="!useLocalData">
 					<el-option
-						v-for="item in options"
+						v-for="item in optionsInner"
 						:key="item[valueKey] | valueFilter"
-						:label="item.label | valueFilter"
+						:label="item[labelKey] | valueFilter"
 						:value="item[valueKey] | valueFilter"
 					/>
 				</div>
 				<div v-else>
-					<template v-if="options.length > 0">
+					<template v-if="optionsInner.length > 0">
 						<el-option
-							v-for="item in options"
-							:key="item.id | valueFilter"
-							:label="item.label | valueFilter"
-							:value="item.id | valueFilter"
+							v-for="item in optionsInner"
+							:key="item[valueKey] | valueFilter"
+							:label="item[labelKey] | valueFilter"
+							:value="item[valueKey] | valueFilter"
 						/>
 					</template>
 					<template v-else>
@@ -48,9 +47,6 @@
 </template>
 
 <script>
-// import * as API from '@/utils/http/api';
-// import { PAGE_SIZE } from '@/config';
-const PAGE_SIZE = 10;
 import { cloneDeep } from 'lodash';
 import { isNumber } from '../../js';
 
@@ -72,10 +68,6 @@ export default {
 			type: [String, Number, Array],
 			default: null,
 		},
-		size: {
-			type: String,
-			default: 'small',
-		},
 		multiple: {
 			type: Boolean,
 			default: false,
@@ -88,13 +80,13 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		localData: {
-			type: Object,
+		options: {
+			type: [Array, Object],
 			default: () => ({}),
 		},
 		valueKey: {
 			type: String,
-			default: 'id',
+			default: 'value',
 		},
 		anotherSetVal: {
 			type: Array,
@@ -102,7 +94,7 @@ export default {
 		},
 		labelKey: {
 			type: String,
-			default: 'name',
+			default: 'label',
 		},
 		className: {
 			type: String,
@@ -145,8 +137,9 @@ export default {
 	},
 	data() {
 		return {
+			PAGE_SIZE: 10,
 			internalValue: '',
-			options: [],
+			optionsInner: [],
 			query: '',
 			firstInit: true,
 			originData: [],
@@ -157,7 +150,13 @@ export default {
 			return this.multiple;
 		},
 		useLocalData() {
-			return Object.keys(this.localData).length > 0;
+			if (Array.isArray(this.options)) {
+				return this.options.length > 0;
+			}
+			if (typeof this.options === 'object') {
+				return Object.keys(this.options).length > 0;
+			}
+			return false;
 		},
 	},
 	watch: {
@@ -185,12 +184,12 @@ export default {
 			},
 			deep: true,
 		},
-		localData: {
+		options: {
 			handler(val) {
 				if (val && Object.keys(val).length > 0) {
 					this.fetchOptions();
 				} else {
-					this.options = [];
+					this.optionsInner = [];
 				}
 			},
 			deep: true,
@@ -210,22 +209,22 @@ export default {
 		// fetchOptions: debounce(async function () {
 		async fetchOptions() {
 			try {
-				this.options = [];
+				this.optionsInner = [];
 				if (this.useLocalData) {
-					this.options = this.mapToArray(this.localData);
+					this.optionsInner = this.mapToArray(this.options);
 				} else {
-					if (!this.url) {
+					/* if (!this.url) {
 						console.error('url is required');
-						this.options = [];
+						this.optionsInner = [];
 						return;
-					}
+					} */
 					/* let response = await API.get(this.url, {
 						...{ size: PAGE_SIZE, page: 1 },
 						[this.searchKey]: this.query || '',
 						...this.param,
 					}); */
 					let response = await this.options({
-						...{ size: PAGE_SIZE, page: 1 },
+						...{ size: this.PAGE_SIZE, page: 1 },
 						[this.searchKey]: this.query || '',
 						...this.param,
 					});
@@ -239,10 +238,10 @@ export default {
 						: response.data.data;
 					this.originData = cloneDeep(response);
 					const groupedOptions = this.groupOptionsArray(response);
-					this.options = groupedOptions;
+					this.optionsInner = groupedOptions;
 				}
 			} catch (error) {
-				console.error('Error fetching options:', error);
+				console.error('Error fetching optionsInner:', error);
 			}
 			// }),
 		},
@@ -256,6 +255,14 @@ export default {
 			return listN;
 		},
 		mapToArray(obj) {
+			if (Array.isArray(obj)) {
+				return obj.map((o) => {
+					return {
+						[this.labelKey]: o[this.labelKey],
+						[this.valueKey]: o[this.valueKey],
+					};
+				});
+			}
 			let res = [];
 			for (let key in obj) {
 				const flag = key === 'true' || key === 'false';
@@ -294,12 +301,12 @@ export default {
 			}
 		},
 		handleFocus() {
-			if (this.options.length === 0) {
+			if (this.optionsInner.length === 0) {
 				this.fetchOptions();
 			}
 		},
 		handlerClear() {
-			this.options = [];
+			this.optionsInner = [];
 			this.query = '';
 		},
 	},

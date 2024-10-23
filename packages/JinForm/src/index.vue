@@ -1,5 +1,5 @@
 <template>
-	<el-form ref="formRef" v-bind="options.form" :model="value">
+	<el-form ref="formRefC" v-bind="options.form" :model="value">
 		<el-row :gutter="14" v-bind="options.row" class="w-full">
 			<template v-for="(item, index) in columns">
 				<el-col
@@ -11,6 +11,7 @@
 				>
 					<el-form-item
 						v-bind="item.item"
+						:align="item.align || 'left'"
 						:label="item.label"
 						:field="item.field"
 						:rules="item.rules"
@@ -28,6 +29,7 @@
 								@updata:value="valueChange($event, item.field)"
 								@change="valueChange($event, item.field)"
 								@input="valueChange($event, item.field)"
+								:disabled="isDisabled(item.disabled)"
 							></component>
 							<!-- v-on="$listeners" -->
 							<!--  v-bind="item.attrs"
@@ -154,23 +156,9 @@ export default {
 				(index >= (this.options.fold?.index || 0) && !this.collapsed)
 			);
 		},
-		/* queyComPrefix() {
-			//没有内层的组件
-			const elCom = [
-				'input',
-				'textarea',
-				'select',
-				'cascader',
-				'tree-select',
-				'radio-group',
-				'checkbox-group',
-				'date-picker',
-				'time-picker',
-			];
-			const elCom = [];
-		}, */
 		getComponentBindProps(item) {
 			const obj = {};
+			obj.comName = `el-${item.type}`;
 			if (item.type === 'input') {
 				obj.comName = 'el-input';
 				obj.allowClear = true;
@@ -183,9 +171,7 @@ export default {
 				obj.placeholder = `请输入${item.label}`;
 				obj.maxLength = 200;
 			} else if (item.type === 'select') {
-				//TODO 需要兼容
-				// obj.comName = 'JinSelect';
-				obj.comName = 'el-select';
+				obj.comName = 'JinSelect';
 				obj.allowClear = true;
 				obj.placeholder = `请输入${item.label}`;
 				obj.options = this.dicData[item.field] || item.options;
@@ -195,16 +181,15 @@ export default {
 				obj.placeholder = `请输入${item.label}`;
 				obj.options = this.dicData[item.field] || item.options;
 			} else if (item.type === 'tree-select') {
-				obj.comName = 'el-tree-select';
+				obj.comName = 'el-tree';
 				obj.allowClear = true;
 				obj.placeholder = `请输入${item.label}`;
 				obj.data = this.dicData[item.field] || item.data;
 			} else if (item.type === 'radio-group') {
-				obj.comName = 'el-radio-group';
+				obj.comName = 'JinRadio';
 				obj.options = this.dicData[item.field] || item.options;
 			} else if (item.type === 'checkbox-group') {
-				obj.comName = 'el-radio-group';
-
+				obj.comName = 'JinCheckbox';
 				obj.options = this.dicData[item.field] || item.options;
 			} else if (item.type === 'date-picker') {
 				obj.comName = 'el-date-picker';
@@ -213,12 +198,13 @@ export default {
 				obj.comName = 'el-time-picker';
 				obj.allowClear = true;
 				obj.placeholder = '请选择时间';
+			} else if (item.type === 'input-number') {
+				obj.comName = 'el-input-number';
+				obj.allowClear = true;
 			}
 			return { ...obj, ...item.props };
 		},
 		valueChange(value, field) {
-			console.log('🚀🚀🚀----field:', field);
-			console.log('🚀🚀🚀----value:', value);
 			this.$emit('input', { ...this.value, [field]: value });
 		},
 		isHide(hide) {
@@ -230,6 +216,9 @@ export default {
 			if (disabled === undefined) return false;
 			if (typeof disabled === 'boolean') return disabled;
 			if (typeof disabled === 'function') return disabled(this.value);
+		},
+		reset() {
+			this.$refs.formRefC?.resetFields();
 		},
 	},
 	created() {

@@ -20,6 +20,7 @@ import dayjs from 'dayjs';
 // moment.suppressDeprecationWarnings = true; // 去掉警告
 // 解决低版本浏览器不支持es6
 // Es6Promise.polyfill()
+import * as Regexp from '../../packages/js';
 
 export default ({ Vue }) => {
 	// Vue.use(VueHighlightJS),
@@ -32,7 +33,9 @@ export default ({ Vue }) => {
 		(Vue.prototype.$alert = ElementUI.MessageBox.alert),
 		(Vue.prototype.$confirm = ElementUI.MessageBox.confirm),
 		(Vue.prototype.$prompt = ElementUI.MessageBox.prompt),
-		(Vue.prototype.$dayjs = dayjs);
+		(Vue.prototype.$dayjs = dayjs),
+		(Vue.prototype.$regexp = Regexp);
+
 	// 过滤器
 	// Object.keys(filters).forEach(key => {
 	//   Vue.filter(key, filters[key])
