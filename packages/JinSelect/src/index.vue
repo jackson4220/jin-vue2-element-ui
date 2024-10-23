@@ -276,23 +276,15 @@ export default {
 			return res;
 		},
 		selectChange(val) {
-			console.log('🚀🚀🚀----val:', val);
 			if (this.anotherSetVal.length > 0) {
 				this.anotherSetVal.forEach((item) => {
 					const findItem = this.originData.find(
 						(option) => option[this.valueKey] === val
 					);
-					console.log('🚀🚀🚀----findItem:', findItem);
 					const isObj = typeof item === 'object';
 					if (isObj) {
 						const emitKey = Object.keys(item)[0];
 						const choseeVKey = item[emitKey];
-						console.log('🚀🚀🚀----emitKey:', emitKey);
-						console.log('🚀🚀🚀----choseeVKey:', choseeVKey);
-						console.log(
-							'🚀🚀🚀----findItem[choseeVKey]:',
-							findItem[choseeVKey]
-						);
 						this.$emit(`update:${emitKey}`, findItem[choseeVKey]);
 					} else {
 						this.$emit(`update:${item}`, findItem[item]);
