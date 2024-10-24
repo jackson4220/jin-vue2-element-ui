@@ -395,7 +395,10 @@ export default {
 							if (item.status !== 'success') {
 								return item;
 							}
-							return item.response.url;
+							return {
+								name: item.response.originFileName || '',
+								url: item.response.url,
+							};
 						});
 					},
 					item: {

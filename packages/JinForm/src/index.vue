@@ -206,7 +206,7 @@ export default {
 				obj.comName = 'el-input-number';
 				obj.allowClear = true;
 			} else if (item.type === 'upload') {
-				// obj['file-list'] = this.value[item.field] || [];
+				obj['file-list'] = this.value[item.field] || [];
 			}
 			return { ...obj, ...item.props };
 		},
