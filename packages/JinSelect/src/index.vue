@@ -151,7 +151,8 @@ export default {
 		},
 		useLocalData() {
 			if (Array.isArray(this.options)) {
-				return this.options.length > 0;
+				// return this.options.length > 0;
+				return true;
 			}
 			if (typeof this.options === 'object') {
 				return Object.keys(this.options).length > 0;
@@ -206,23 +207,12 @@ export default {
 			this.query = query;
 			this.fetchOptions();
 		},
-		// fetchOptions: debounce(async function () {
 		async fetchOptions() {
 			try {
 				this.optionsInner = [];
 				if (this.useLocalData) {
 					this.optionsInner = this.mapToArray(this.options);
 				} else {
-					/* if (!this.url) {
-						console.error('url is required');
-						this.optionsInner = [];
-						return;
-					} */
-					/* let response = await API.get(this.url, {
-						...{ size: PAGE_SIZE, page: 1 },
-						[this.searchKey]: this.query || '',
-						...this.param,
-					}); */
 					let response = await this.options({
 						...{ size: this.PAGE_SIZE, page: 1 },
 						[this.searchKey]: this.query || '',
@@ -243,7 +233,6 @@ export default {
 			} catch (error) {
 				console.error('Error fetching optionsInner:', error);
 			}
-			// }),
 		},
 		groupOptionsArray(list) {
 			const listN = list.map((item) => {

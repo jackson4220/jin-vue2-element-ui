@@ -65,7 +65,8 @@ export default {
 	computed: {
 		useLocalData() {
 			if (Array.isArray(this.options)) {
-				return this.options.length > 0;
+				// return this.options.length > 0;
+				return true;
 			}
 			if (typeof this.options === 'object') {
 				return Object.keys(this.options).length > 0;
@@ -78,8 +79,7 @@ export default {
 			deep: true,
 			immediate: true,
 			handler(newValue) {
-				console.log('🚀🚀🚀----newValue:', newValue);
-				// this.internalValue = newValue;
+				this.internalValue = newValue;
 			},
 		},
 		options: {
@@ -103,16 +103,6 @@ export default {
 				if (this.useLocalData) {
 					this.optionsInner = this.mapToArray(this.options);
 				} else {
-					/* if (!this.url) {
-						console.error('url is required');
-						this.optionsInner = [];
-						return;
-					} */
-					/* let response = await API.get(this.url, {
-						...{ size: PAGE_SIZE, page: 1 },
-						[this.searchKey]: this.query || '',
-						...this.param,
-					}); */
 					let response = await this.options({
 						...{ size: this.PAGE_SIZE, page: 1 },
 						[this.searchKey]: this.query || '',
@@ -157,9 +147,7 @@ export default {
 			return res;
 		},
 		handleChange(val) {
-			console.log('🚀🚀🚀----val:', val);
-			console.log('🚀🚀🚀----val:', this.internalValue);
-			// this.$emit('input', val);
+			this.$emit('input', val);
 		},
 	},
 };

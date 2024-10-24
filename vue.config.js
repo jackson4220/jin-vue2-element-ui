@@ -42,5 +42,61 @@ module.exports = defineConfig({
 				];
 			}
 		});
+		config.devServer = {
+			hot: true,
+			port: 81,
+			open: true,
+			allowedHosts: 'all',
+			client: {
+				overlay: {
+					warnings: true,
+					errors: true,
+				},
+			},
+			proxy: {
+				'/staticCondrive': {
+					target: 'https://static.condrive.com/',
+					changeOrigin: true,
+					pathRewrite: {
+						'^/staticCondrive': '',
+					},
+				},
+				'/platform': {
+					target: 'https://beta-dianmian.ke.com/',
+					changeOrigin: true,
+					pathRewrite: {
+						// '^/api': ''
+					},
+				},
+				'/uploadFile': {
+					target: 'https://beta-dianmian.ke.com/',
+					changeOrigin: true,
+					pathRewrite: {
+						// '^/api': ''
+					},
+				},
+				'/uploadImg': {
+					target: 'https://beta-dianmian.ke.com/',
+					changeOrigin: true,
+					pathRewrite: {
+						// '^/api': ''
+					},
+				},
+				'/uploadUrl': {
+					target: 'https://beta-dianmian.ke.com/',
+					changeOrigin: true,
+					pathRewrite: {
+						'^/uploadUrl': '',
+					},
+				},
+				'/api': {
+					target: 'https://rs.wzznft.com/',
+					changeOrigin: true,
+					pathRewrite: {
+						'^/api': '',
+					},
+				},
+			},
+		};
 	},
 });

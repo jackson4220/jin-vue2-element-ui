@@ -8,6 +8,7 @@
 			size="normal"
 			:options="options"
 			:columns="columns"
+			@reset="reset"
 		>
 		</JinForm>
 	</div>
@@ -177,17 +178,14 @@ const deptData = [
 	},
 ];
 export default {
-	/* components: {
-		JinForm,
-	}, */
 	data() {
 		return {
 			form: {
-				name: '123',
-				phone: '456',
+				name: '',
+				phone: '',
 				sex: 1,
 				birthday: '',
-				hobbys: [1],
+				hobbys: [],
 				status: 1,
 				mark: 0,
 				hide: false,
@@ -198,17 +196,17 @@ export default {
 				sort: 0,
 				city: [],
 				dept: [],
-				file: [
-					'https://inews.gtimg.com/om_bt/Os3eJ8u3SgB3Kd-zrRRhgfR5hUvdwcVPKUTNO6O7sZfUwAA/641',
-				],
+				fileList: [],
 			},
 			options: {
 				form: {
 					labelWidth: '80px',
 					size: 'mini',
 				},
-				btns: { hide: true },
+				// btns: { hide: true },
+				btns: { hide: false },
 				col: { xs: 24, sm: 12 },
+				fold: { enable: true, defaultCollapsed: false },
 			},
 			columns: [
 				{
@@ -239,6 +237,7 @@ export default {
 						{ match: Regexp.Phone, message: '手机号格式不正确' },
 					],
 				},
+				//请求远程示例
 				{
 					type: 'select',
 					label: '性别',
@@ -252,18 +251,33 @@ export default {
 					type: 'date-picker',
 					label: '生日',
 					field: 'birthday',
+					props: {
+						type: 'date',
+						format: 'yyyy-MM-dd',
+						'value-format': 'yyyy-MM-dd',
+					},
 				},
 				{
 					type: 'checkbox-group',
 					label: '爱好',
 					field: 'hobbys',
 					span: 24,
-					options: [
-						{ label: '电影', value: '1' },
-						{ label: '音乐', value: '2' },
-						{ label: '旅行', value: '3' },
-						{ label: '游戏', value: '4' },
-					],
+					options: [],
+					init: true,
+					request: async () => {
+						return new Promise((resolve) => {
+							setTimeout(() => {
+								resolve({
+									data: [
+										{ label: '电影', value: '1' },
+										{ label: '音乐', value: '2' },
+										{ label: '旅行', value: '3' },
+										{ label: '游戏', value: '4' },
+									],
+								});
+							}, 1000);
+						});
+					},
 				},
 				{
 					type: 'input-number',
@@ -354,14 +368,35 @@ export default {
 				{
 					type: 'upload',
 					label: '附件',
-					field: 'file',
+					field: 'fileList',
 					span: 24,
 					props: {
 						listType: 'picture-card',
-						action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-						headers: {
-							Token: '12456',
+						action: '/api/localup.php',
+						headers: {},
+						name: 'file',
+						data: {
+							// name: '3.jpg',
+							uuid: 'o_1iaunor451j18ghmsdt6mq1vd3a',
+							nameMode: 'isRenameMode',
+							authToken_today: 'FJ932YTHEWOJG94YHEWJGOWEK349',
 						},
+						'on-success': (response, file, fileList) => {
+							console.log(
+								'🚀🚀🚀----response, file, fileList:',
+								response,
+								file,
+								fileList
+							);
+						},
+					},
+					resultFormat: (arr) => {
+						return arr.map((item) => {
+							if (item.status !== 'success') {
+								return item;
+							}
+							return item.response.url;
+						});
 					},
 					item: {
 						extra: '上传文件只支持zip、rar、doc、docx、pdf、jpg、png格式',
@@ -370,12 +405,18 @@ export default {
 			],
 		};
 	},
-	created() {},
-	mounted() {},
+	watch: {
+		form: {
+			deep: true,
+			handler(val) {
+				console.log('🚀🚀🚀----val:', val);
+			},
+		},
+	},
 	methods: {
-		/* reset() {
-			this.$refs.formRef?.reset();
-		}, */
+		reset() {
+			// this.$refs.formRef?.reset();
+		},
 	},
 };
 </script>

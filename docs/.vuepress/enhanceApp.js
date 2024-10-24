@@ -34,7 +34,7 @@ export default ({ Vue }) => {
 		(Vue.prototype.$confirm = ElementUI.MessageBox.confirm),
 		(Vue.prototype.$prompt = ElementUI.MessageBox.prompt),
 		(Vue.prototype.$dayjs = dayjs),
-		(Vue.prototype.$regexp = Regexp);
+		(Vue.prototype.$Regexp = Regexp);
 
 	// 过滤器
 	// Object.keys(filters).forEach(key => {

@@ -30,6 +30,10 @@
 								@change="valueChange($event, item.field)"
 								@input="valueChange($event, item.field)"
 								:disabled="isDisabled(item.disabled)"
+								:on-change="
+									(file, fileList) =>
+										upLoadChange(file, fileList, item.field, item)
+								"
 							></component>
 							<!-- v-on="$listeners" -->
 							<!--  v-bind="item.attrs"
@@ -42,7 +46,6 @@
 				</el-col>
 			</template>
 			<el-col
-				:key="item.field"
 				v-if="!options.btns?.hide"
 				:span="options.btns?.span || 12"
 				v-bind="options.btns?.col"
@@ -54,7 +57,8 @@
 							options.btns?.searchBtnText || '搜索'
 						}}</template>
 					</el-button>
-					<el-button @click="emit('reset')">重置</el-button>
+					<!-- <el-button @click="emit('reset')">重置</el-button> -->
+					<el-button @click="reset">重置</el-button>
 					<el-button
 						v-if="options.fold?.enable"
 						type="text"
@@ -201,11 +205,19 @@ export default {
 			} else if (item.type === 'input-number') {
 				obj.comName = 'el-input-number';
 				obj.allowClear = true;
+			} else if (item.type === 'upload') {
+				// obj['file-list'] = this.value[item.field] || [];
 			}
 			return { ...obj, ...item.props };
 		},
 		valueChange(value, field) {
 			this.$emit('input', { ...this.value, [field]: value });
+		},
+		upLoadChange(file, fileList, field, item) {
+			if (item.resultFormat) {
+				fileList = item.resultFormat(fileList);
+			}
+			this.$emit('input', { ...this.value, [field]: fileList });
 		},
 		isHide(hide) {
 			if (hide === undefined) return false;
@@ -218,7 +230,10 @@ export default {
 			if (typeof disabled === 'function') return disabled(this.value);
 		},
 		reset() {
-			this.$refs.formRefC?.resetFields();
+			console.log('🚀🚀🚀----this.$refs.formRefC:', this.$refs.formRefC);
+			this.$nextTick(() => {
+				this.$refs.formRefC?.resetFields();
+			});
 		},
 	},
 	created() {
