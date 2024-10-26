@@ -1,6 +1,6 @@
-import JinForm from './src';
+import JinTable from './src';
 
-JinForm.install = function (Vue) {
-	Vue.component(JinForm.name, JinForm);
+JinTable.install = function (Vue) {
+	Vue.component(JinTable.name, JinTable);
 };
-export default JinForm;
+export default JinTable;
