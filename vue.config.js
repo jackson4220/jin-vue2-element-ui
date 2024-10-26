@@ -50,7 +50,7 @@ module.exports = defineConfig({
 		});
 
 		// 确保vue-loader正确配置了scss
-		config.module.rules.push({
+		/* config.module.rules.push({
 			test: /\.vue$/,
 			loader: 'vue-loader',
 			options: {
@@ -67,7 +67,7 @@ module.exports = defineConfig({
 					],
 				},
 			},
-		});
+		}); */
 
 		config.devServer = {
 			hot: true,

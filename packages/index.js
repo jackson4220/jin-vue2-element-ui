@@ -5,7 +5,7 @@ import JinRadio from './JinRadio';
 
 // import JinStickyTable from './JinStickyTable';
 // import JinTable from './JinTable';
-import JinImage from './JinImage';
+// import JinImage from './JinImage';
 
 import pkg from '../package.json'; // 使用默认导出
 const { version } = pkg; // 解构获取 version
@@ -17,7 +17,7 @@ const components = [
 	JinCheckbox,
 	JinRadio,
 	// JinStickyTable,
-	JinImage,
+	// JinImage,
 	// JinTable,
 ];
 
@@ -41,7 +41,7 @@ export {
 	JinCheckbox,
 	JinRadio,
 	// JinStickyTable,
-	JinImage,
+	// JinImage,
 	// JinTable,
 };
 export default {
