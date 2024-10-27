@@ -10,7 +10,7 @@
 					v-bind="item.col || item.span ? item.col : options.col"
 				>
 					<el-form-item
-						v-bind="item.item"
+						v-bind="item"
 						:align="item.align || 'left'"
 						:label="item.label"
 						:field="item.field"
@@ -35,9 +35,6 @@
 										upLoadChange(file, fileList, item.field, item)
 								"
 							></component>
-							<!-- v-on="$listeners" -->
-							<!--  v-bind="item.attrs"
-                            v-model="dialogProps[item.formItem.prop]" -->
 						</slot>
 						<slot v-else name="group-title">
 							<el-alert v-bind="item.props">{{ item.label }}</el-alert>
@@ -46,32 +43,31 @@
 				</el-col>
 			</template>
 			<el-col
-				v-if="!options.btns?.hide"
-				:span="options.btns?.span || 12"
-				v-bind="options.btns?.col"
+				v-if="!options.btns.hide"
+				:span="options.btns ? options.btns.span : 12"
+				:v-bind="options.btns ? options.btns.col : {}"
 			>
-				<template slot name="btns">
-					<el-button type="primary" @click="emit('search')">
-						<!-- <i class="el-icon-search" /> -->
-						<template #default>{{
-							options.btns?.searchBtnText || '搜索'
-						}}</template>
+				<template>
+					<el-button type="primary" @click="$emit('search')">
+						{{
+							options.btns && options.btns.searchBtnText
+								? options.btns.searchBtnText
+								: '搜索'
+						}}
 					</el-button>
-					<!-- <el-button @click="emit('reset')">重置</el-button> -->
 					<el-button @click="reset">重置</el-button>
 					<el-button
-						v-if="options.fold?.enable"
+						v-if="options.fold && options.fold.enable"
 						type="text"
 						size="mini"
 						@click="collapsed = !collapsed"
 					>
-						<template #icon>
+						<template v-slot:icon>
 							<icon-up v-if="!collapsed" />
 							<icon-down v-else />
 						</template>
-						<template #default>{{ collapsed ? '展开' : '收起' }}</template>
+						{{ collapsed ? '展开' : '收起' }}
 					</el-button>
-					<!-- </slot> -->
 				</template>
 			</el-col>
 		</el-row>

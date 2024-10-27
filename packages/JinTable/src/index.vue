@@ -19,7 +19,6 @@
 			@selection-change="handleSelectionChange"
 			@sort-change="sortChange"
 		>
-			<!-- getKey -->
 			<slot v-if="showSelection" name="selection">
 				<el-table-column
 					align="center"
@@ -47,15 +46,15 @@
 				v-for="(field, ids) in showFields"
 				:key="ids"
 				:align="field.align || 'left'"
-				:class-name="field.className ? field.className : ''"
+				:class-name="field.className || ''"
 				:fixed="field.fixed"
-				:formatter="field.formatter ? field.formatter : null"
+				:formatter="field.formatter || null"
 				:label="field.label"
 				:min-width="field.minWidth"
 				:prop="field.prop"
 				:resizable="true"
 				:show-overflow-tooltip="
-					Object.prototype.hasOwnProperty.call(field, 'showOverflowTooltip')
+					field.showOverflowTooltip !== undefined
 						? field.showOverflowTooltip
 						: true
 				"
@@ -67,8 +66,9 @@
 					<span
 						class="caret-wrapper"
 						:class="{
-							ascending: sortFlagProp === field.prop && sortFlagType == 'asc',
-							descending: sortFlagProp === field.prop && sortFlagType == 'desc',
+							ascending: sortFlagProp === field.prop && sortFlagType === 'asc',
+							descending:
+								sortFlagProp === field.prop && sortFlagType === 'desc',
 						}"
 						@click="changeSort(field.prop)"
 					>
@@ -87,22 +87,20 @@
 							<span style="margin-right: 5px">{{ scope.row[field.prop] }}</span>
 							<el-tag v-if="scope.row.isDefault" type="danger">默认</el-tag>
 							<el-tag v-if="scope.row.fixed" type="danger">系统</el-tag>
-							<!-- 项目列表---start -->
 							<el-tag
-								v-if="scope.row.projectActionStatus == 'Cancel'"
+								v-if="scope.row.projectActionStatus === 'Cancel'"
 								size="mini"
 								type="danger"
 							>
 								已取消
 							</el-tag>
 							<el-tag
-								v-if="scope.row.projectActionStatus == 'Stop'"
+								v-if="scope.row.projectActionStatus === 'Stop'"
 								size="mini"
 								type="warning"
 							>
 								已暂停
 							</el-tag>
-							<!-- 项目列表---end -->
 						</div>
 						<div v-else-if="field.isProgress">
 							<el-progress
@@ -116,7 +114,6 @@
 								style="margin-top: 0px"
 							/>
 						</div>
-						<!-- 直接得到的百分比 -->
 						<div v-else-if="field.isNewProgress">
 							<el-progress
 								:format="formatProgress"
@@ -134,8 +131,7 @@
 								type="primary"
 								@click="tapProp(field.prop, scope.row, link)"
 							>
-								{{ link.name ? link.name : link.id
-								}}{{ link.isLast ? '' : ',' }}
+								{{ link.name || link.id }}{{ link.isLast ? '' : ',' }}
 							</el-link>
 							<span v-if="!getLinks(scope.row, field).length">--</span>
 						</div>
@@ -147,8 +143,7 @@
 								type="primary"
 								@click="tapProp(field.prop, scope.row, link)"
 							>
-								{{ link.name ? link.name : link.id
-								}}{{ link.isLast ? '' : ',' }}
+								{{ link.name || link.id }}{{ link.isLast ? '' : ',' }}
 							</el-link>
 						</div>
 						<div v-else-if="field.fn" class="inline">
@@ -157,7 +152,7 @@
 									{{
 										field.formatter
 											? field.formatter(scope.row)
-											: scope.row[field.prop] | dateFmt(field.dateFmt)
+											: formatDate(scope.row[field.prop], field.dateFmt)
 									}}
 								</span>
 								<span v-else>
@@ -203,46 +198,17 @@
 								/>
 							</div>
 						</div>
-						<!-- <div v-else-if="field.isMerge">
-							{{
-								unifiedUserNameInTable(
-									scope.row[field.prop],
-									scope.row[field.secondProp]
-								)
-							}}
-						</div> -->
-						<!-- <div v-else-if="field.isApproveJson">
-							<span v-if="isMarked(approveJson(scope.row[field.prop]))">
-								<el-tooltip placement="top">
-									<div
-										slot="content"
-										style="width: 375px; max-height: 800px; overflow: scroll"
-									>
-										<div
-											v-html="isRenderHtml(approveJson(scope.row[field.prop]))"
-										></div>
-									</div>
-									<span
-										class="markdown"
-										v-html="
-											isRenderHtmlLabel(approveJson(scope.row[field.prop]))
-										"
-									></span>
-								</el-tooltip>
-							</span>
-							<span v-else>{{ approveJson(scope.row[field.prop]) }}</span>
-						</div> -->
 						<div
 							v-else-if="field.map"
-							:class="field?.class || ''"
-							:style="field?.style || ''"
+							:class="field.class || ''"
+							:style="field.style || ''"
 						>
-							{{ field?.map[scope?.row[field?.prop]] || '--' }}
+							{{ field.map[scope.row[field.prop]] || '--' }}
 						</div>
 						<template v-else>
 							<template v-if="field.dateFmt">
 								<span v-if="scope.row[field.prop]">
-									{{ scope.row[field.prop] | dateFmt(field.dateFmt) }}
+									{{ formatDate(scope.row[field.prop], field.dateFmt) }}
 								</span>
 								<span v-else>--</span>
 							</template>
@@ -641,7 +607,7 @@ export default {
 }
 </style>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .markdown {
 	//因为markdown用了v-html渲染会产生p标签，p标准自带margin在表格中所在行会与其他行高度不统一，故清空margin
 	p {

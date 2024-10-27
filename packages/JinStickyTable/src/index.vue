@@ -1,5 +1,5 @@
 <template>
-	<ElTable
+	<el-table
 		ref="table"
 		v-bind="$attrs"
 		v-horizontal-scroll="'always'"
@@ -9,11 +9,12 @@
 		<template v-for="(_, slot) of $scopedSlots" #[slot]="scope">
 			<slot :name="slot" v-bind="scope" />
 		</template>
-	</ElTable>
+	</el-table>
 </template>
 
 <script>
-import { Table as ElTable } from 'element-ui';
+// import { Table as ElTable } from 'element-ui';
+// import 'element-ui/lib/theme-chalk/index.css';
 
 const wait = (ms) => {
 	return new Promise((resolve) => setTimeout(resolve, ms));
@@ -22,7 +23,7 @@ const wait = (ms) => {
 export default {
 	name: 'JinStickyTable',
 	components: {
-		ElTable,
+		// ElTable,
 	},
 	inheritAttrs: true,
 	props: {
