@@ -19,7 +19,7 @@
 		<template v-for="(item, index) in menuList" class="menu">
 			<!-- 标题 -->
 			<template v-if="item.children.length">
-				<el-submenu :key="index" :index="item.name" class="sub-menu-item">
+				<el-submenu :key="item.name" :index="item.name" class="sub-menu-item">
 					<template :index="item.index" slot="title">
 						<!--            <i :class="item.icon"></i>-->
 						<i class="iconfont icon-danganjianying"></i>
@@ -32,7 +32,7 @@
 			</template>
 			<!-- 选项 -->
 			<template v-else>
-				<el-menu-item :key="index" :index="item.name" class="menu-item">
+				<el-menu-item :key="item.name" :index="item.name" class="menu-item">
 					<!--          <i :class="item.icon"></i>-->
 					<i class="iconfont icon-danganjianying"></i>
 					<span>{{ item.name }}</span>
@@ -55,8 +55,8 @@ export default {
 	methods: {
 		selectItem(name, path) {
 			// alert(name)
-			// this.$router.push(path);
-			// this.$store.commit('common/updateMenuActiveName', name);
+			this.$router.push({ name });
+			this.$store.commit('router/UPDATE_MENU_ACTIVE_NAME', name);
 		},
 	},
 	computed: {
@@ -71,13 +71,8 @@ export default {
 		menuList() {
 			return this.$store.state.router.menuList;
 		},
-		menuActiveName: {
-			get() {
-				// return this.$store.state.common.menuActiveName;
-			},
-			set(val) {
-				// this.$store.commit('common/updateMenuActiveName', val);
-			},
+		menuActiveName() {
+			return this.$store.state.router.activeName;
 		},
 		sidebarFold: {
 			get() {

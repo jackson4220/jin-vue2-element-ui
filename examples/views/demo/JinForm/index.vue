@@ -11,27 +11,11 @@
 			@reset="reset"
 		>
 		</JinForm>
-		<!-- <JinImage
-			:src="'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg'"
-		/> -->
-		<JinTable
-			:list="list"
-			:loading="loading"
-			:pager="pager"
-			:show-fields="showFields"
-			:show-selection="true"
-			@handleCurrentChange="handleCurrentChange"
-			@handleSelectionChange="handleSelectionChange"
-			@handleSizeChange="handleSizeChange"
-			@tapProp="handleTapProp"
-		/>
 	</div>
 </template>
 
 <script>
 import * as Regexp from '~/js';
-import { allFields } from './all-file.js';
-import tableMixins from '~/mixins/table.js';
 const cityOptions = [
 	{
 		value: 'zhinan',
@@ -194,10 +178,8 @@ const deptData = [
 	},
 ];
 export default {
-	mixins: [tableMixins],
 	data() {
 		return {
-			allFields,
 			form: {
 				name: '',
 				phone: '',
@@ -436,10 +418,8 @@ export default {
 	},
 	methods: {
 		reset() {
-			// this.$refs.formRef?.reset();
+			this.$refs.formRef.reset();
 		},
-
-		handleTapProp() {},
 	},
 };
 </script>

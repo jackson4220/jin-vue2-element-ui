@@ -2,7 +2,8 @@
 
 import Layout from '@/layout';
 /* 定义component */
-const JinTable = () => import('@/views/JinTable');
+const JinTable = () => import('@/views/demo/JinTable');
+const JinForm = () => import('@/views/demo/JinForm');
 
 const demoRouter = {
 	path: '/',
@@ -22,10 +23,10 @@ const demoRouter = {
 			meta: { title: 'JinTable', showMenu: true },
 		},
 		{
-			path: 'test66',
-			name: 'test66',
-			component: JinTable,
-			meta: { title: 'JinTable', showMenu: true },
+			path: 'jin-form',
+			name: 'demo-jin-form',
+			component: JinForm,
+			meta: { title: 'JinForm', showMenu: true },
 		},
 	],
 };

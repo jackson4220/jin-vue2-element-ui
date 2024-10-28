@@ -3,8 +3,8 @@
 		<template v-for="(item, index) in list">
 			<!-- 标题 -->
 			<template v-if="item.children && item.children.length">
-				<el-submenu :key="index" :index="item.name" class="sub-menu-item">
-					<template :index="item.index" slot="title">
+				<el-submenu :key="item.name" :index="item.name" class="sub-menu-item">
+					<template :index="item.name" slot="title">
 						<!--            <i :class="item.icon"></i>-->
 						<i class="iconfont icon-danganjianying"></i>
 						<span>{{ item.name }}</span>
@@ -17,8 +17,8 @@
 			<!-- 选项 -->
 			<template v-else>
 				<el-menu-item
-					:key="index"
-					:index="item.id"
+					:key="item.name"
+					:index="item.name"
 					class="menu-item"
 					@click="selectItem(item.name, item.path)"
 				>
@@ -50,8 +50,8 @@ export default {
 		},
 		selectItem(name, path) {
 			// alert(name)
-			this.$router.push(path);
-			// this.$store.commit('common/updateMenuActiveName', name);
+			this.$router.push({ name });
+			this.$store.commit('router/UPDATE_MENU_ACTIVE_NAME', name);
 		},
 	},
 };

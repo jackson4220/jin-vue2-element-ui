@@ -79,8 +79,10 @@ router.beforeEach((to, from, next) => {
 	if (isLogin) {
 		// 判断权限是否通过
 		if (asyncRouter.includes(String(to.name))) {
+			store.commit('router/UPDATE_MENU_ACTIVE_NAME', to.name);
 			next();
 		} else {
+			store.commit('router/UPDATE_MENU_ACTIVE_NAME', '404');
 			next({ name: '404' });
 		}
 		return;
@@ -88,6 +90,7 @@ router.beforeEach((to, from, next) => {
 
 	if (!isLogin) {
 		// 未登录逻辑
+		store.commit('router/UPDATE_MENU_ACTIVE_NAME', to.name);
 		if (whiteList.includes(String(to.name))) {
 			next();
 		} else {

@@ -24,6 +24,14 @@ module.exports = {
 					'/api': '/mock', // 本地
 				},
 			},
+			'/uploadImage': {
+				target: 'https://rs.wzznft.com/', // 本地json数据
+				changeOrigin: true,
+				ws: false,
+				pathRewrite: {
+					'/uploadImage': '', // 本地
+				},
+			},
 		},
 	},
 	// 修改 src 目录 为 examples 目录
