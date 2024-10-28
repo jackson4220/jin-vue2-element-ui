@@ -78,9 +78,7 @@
 		"type": "git",
 		"url": "https://gitee.com/huang-jiajin/jiajin-vue2-element-ui"
 	},
-	"resolutions": {
-		"@achrinza/node-ipc": "9.2.9"
-	},
+
 	"homepage": "https://gitee.com/huang-jiajin/jiajin-vue2-element-ui",
 	"keywords": [
 		"element-ui",

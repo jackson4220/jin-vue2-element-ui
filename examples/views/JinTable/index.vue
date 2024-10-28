@@ -1,6 +1,5 @@
 <template>
 	<div>
-		123
 		<JinTable
 			:list="list"
 			:loading="loading"
