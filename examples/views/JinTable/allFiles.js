@@ -12,10 +12,10 @@ export const allFields = [
 		fixed: false,
 		required: true,
 		sortable: false,
-		formatter: (row, store) => {
+		/* formatter: (row, store) => {
 			// console.log(store.getters['enum/vioTypeList'])
 			return store.getters['enum/vioTypeList'][row.type] || '--';
-		},
+		}, */
 	},
 	{
 		label: '违规来源',

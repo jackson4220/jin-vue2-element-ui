@@ -8,17 +8,24 @@ const demoRouter = {
 	path: '/',
 	component: Layout,
 	redirect: '/jin-table',
-	name: '测试页面',
+	name: 'demo',
 	meta: {
 		title: '测试页面',
 		icon: 'job',
+		showMenu: true,
 	},
 	children: [
 		{
 			path: 'jin-table',
-			name: 'test',
+			name: 'demo-jin-table',
 			component: JinTable,
-			meta: { title: 'TTable高度自适应' },
+			meta: { title: 'JinTable', showMenu: true },
+		},
+		{
+			path: 'test66',
+			name: 'test66',
+			component: JinTable,
+			meta: { title: 'JinTable', showMenu: true },
 		},
 	],
 };

@@ -1,4 +1,6 @@
 import { omit, cloneDeep, debounce } from 'lodash';
+import * as api from 'axios';
+// console.log('🚀🚀🚀----api:', api);
 // import { successCode } from '@/config';
 // import { getUserConfig, updateUserConfig } from '@/api/user';
 // import * as api from '@/api/bean';
@@ -7,6 +9,8 @@ const successCode = [0];
 export default {
 	data() {
 		return {
+			model: {},
+
 			loading: false,
 			list: [], // 列表数据
 			pager: {
@@ -34,9 +38,8 @@ export default {
 		};
 	},
 	async mounted() {
-		console.log('🚀🚀🚀----this.$route:', this.$route);
 		const query = this.$route.query;
-		if (this.model.size) {
+		if (this.model?.size) {
 			this.pager.size = this.model.size;
 		} else {
 			this.pager.size = +(query.size || 10);
@@ -68,11 +71,11 @@ export default {
 	methods: {
 		async initShowFields() {
 			let res;
-			/* if (this.configKey) {
+			if (this.configKey) {
 				res = await getUserConfig(this.configKey);
 			} else {
 				res = { errorCode: 0, data: {} };
-			} */
+			}
 			if (res && successCode.includes(res.errorCode)) {
 				this.configData = res.data;
 				let th = [];
@@ -189,7 +192,7 @@ export default {
 
 				if (confirm) {
 					const res = await api.batchDeleteBean(
-						this.model.delUri ? this.model.delUri : this.model.uri,
+						this.model.delUri ? this.model.delUri : this.model?.uri,
 						ids.join(',')
 					);
 					if (res && successCode.includes(res.errorCode)) {
@@ -234,7 +237,7 @@ export default {
 
 				if (confirm) {
 					const res = await api.delBean(
-						this.model.delUri ? this.model.delUri : this.model.uri,
+						this.model.delUri ? this.model.delUri : this.model?.uri,
 						{ ids: ids.join(',') }
 					);
 					if (res && successCode.includes(res.errorCode)) {
@@ -274,7 +277,8 @@ export default {
 			/* const res = await updateUserConfig(params);
 			if (res && successCode.includes(res.errorCode)) {
 				this.initShowFields();
-			} */
+            } */
+			this.initShowFields();
 		},
 		/**
 		 * 页码变化
@@ -360,8 +364,8 @@ export default {
 					}
 				}
 
-				if (api.sourceMap[this.model.uri]) {
-					api.sourceMap[this.model.uri].cancel('精确取消');
+				if (api.sourceMap[this.model?.uri]) {
+					api.sourceMap[this.model?.uri].cancel('精确取消');
 				}
 
 				let res = null;

@@ -500,7 +500,8 @@ export default {
 	},
 	watch: {
 		showFields: {
-			handler() {
+			handler(val) {
+				console.log('🚀🚀🚀----val:', val);
 				this.rendered = false;
 				this.$nextTick(() => {
 					this.rendered = true;

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { allFields } from './all-file.js';
+import { allFields } from './allFiles.js';
 import tableMixins from '~/mixins/table.js';
 
 export default {
@@ -27,7 +27,7 @@ export default {
 	},
 	watch: {},
 	mounted() {
-		console.log(123);
+		console.log(this.allFields);
 	},
 	methods: {
 		handleTapProp() {},

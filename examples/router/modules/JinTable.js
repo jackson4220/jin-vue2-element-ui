@@ -2,7 +2,7 @@
 
 // import Layout from '@/layout';
 /* 定义component */
-const Base = () => import('@/views/JinTable');
+/* const Base = () => import('@/views/JinTable');
 
 const TTableRouter = {
 	path: '/jin-table',
@@ -23,4 +23,4 @@ const TTableRouter = {
 	],
 };
 
-export default TTableRouter;
+export default TTableRouter; */
