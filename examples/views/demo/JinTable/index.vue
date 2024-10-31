@@ -40,8 +40,6 @@ export default {
 			allFields,
 			searchFieldOptions,
 			searchFieldColumns,
-			// options,
-			// columns,
 			filters: {
 				status: 1,
 			}, // 查询表单的数据

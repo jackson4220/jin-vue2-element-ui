@@ -173,11 +173,7 @@ export const options = {
 		},
 	},
 	col: { xs: 24, sm: 12 },
-	fold: {
-		// index: 2,
-		enable: true,
-		defaultCollapsed: true,
-	},
+	fold: { index: 2, enable: true, defaultCollapsed: true },
 };
 
 export const columns = [
@@ -239,10 +235,10 @@ export const columns = [
 		label: '城市',
 		field: 'city',
 		options: cityOptions,
-		// disabled: (i) => i.status === 0,
-		hide: (i) => {
+		disabled: (i) => i.status === 0,
+		/* hide: (i) => {
 			i.status && (i.city = []);
 			return i.status === 0;
-		},
+		}, */
 	},
 ];

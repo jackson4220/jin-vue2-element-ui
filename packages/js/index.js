@@ -4,5 +4,5 @@ import * as formate from './modules/formate';
 import * as router from './modules/router';
 export const { OnlyCh, Phone } = regexp;
 export const { isNumber } = validate;
-export const { appendUrlParams } = formate;
+export const { appendUrlParams, getOriValue } = formate;
 export const { loopRouter, getUrlMergeQuery, getQueryObject } = router;

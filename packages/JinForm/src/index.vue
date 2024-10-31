@@ -2,10 +2,10 @@
 	<el-form ref="formRefC" v-bind="options.form" :model="value">
 		<el-row :gutter="0" v-bind="options.row" class="w-full">
 			<template v-for="(item, index) in columns">
+				<!-- v-show="colVShow(index)" -->
 				<el-col
 					:key="item.field"
-					v-if="!isHide(item.hide)"
-					v-show="colVShow(index)"
+					v-if="!isHide(item.hide) && colVShow(index)"
 					:span="item.span || 12"
 					v-bind="item.col || item.span ? item.col : options.col"
 				>

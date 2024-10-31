@@ -1,3 +1,4 @@
+import { isNumber } from './validate';
 const baseURL = '//';
 
 // 拼接对象参数到 URL
@@ -36,4 +37,29 @@ export function appendUrlParams(url, obj = {}) {
 	const newUrl = `${basePath}?${params.toString()}`;
 
 	return newUrl; // 返回新的 URL
+}
+
+/**
+ * @description 校验数据基本类型并返回原始数据,支持数字、布尔、字符串
+ * @param value
+ * @param defaultV 默认值
+ * @returns {object}
+ */
+export function getOriValue(value, defaultV = '') {
+	if (value === null) return defaultV;
+	if (typeof value === 'object') {
+		return value;
+	}
+	if (typeof +value === 'bigint') {
+		return value;
+	}
+
+	const flag = value === 'true' || value === 'false';
+	const res = isNumber(value) ? +value : flag ? value === 'true' : value;
+
+	if (res === undefined || res === '') {
+		return defaultV;
+	}
+
+	return res;
 }

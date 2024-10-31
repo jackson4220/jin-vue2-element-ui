@@ -1,4 +1,5 @@
 import { omit, cloneDeep, debounce } from 'lodash';
+import { getOriValue } from '../js';
 const successCode = [0];
 
 export default {
@@ -24,6 +25,10 @@ export default {
 	},
 	async mounted() {
 		const query = this.$route.query;
+		Object.keys(query).forEach((key) => {
+			query[key] = getOriValue(query[key]);
+		});
+
 		if (this.model?.size) {
 			this.pager.size = this.model.size;
 		} else {

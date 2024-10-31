@@ -6,34 +6,66 @@
 
 ## 使用示例
 
-<details>
-<summary>点击查看代码示例</summary>
-
 ```vue
 <template>
-	<JinTable :data="tableData">
-		<el-table-column prop="date" label="日期" width="180"></el-table-column>
-		<el-table-column prop="name" label="姓名" width="180"></el-table-column>
-		<el-table-column prop="address" label="地址"></el-table-column>
-	</JinTable>
+	<div class="box">
+		<JinForm
+			v-model="filters"
+			ref="formRef"
+			label-width="80px"
+			:inline="false"
+			size="normal"
+			:options="searchFieldOptions"
+			:columns="searchFieldColumns"
+			@reset="searchReset"
+			@search="getList"
+		>
+		</JinForm>
+		<JinTable
+			:list="list"
+			:loading="loading"
+			:pager="pager"
+			:show-fields="showFields"
+			:show-selection="true"
+			@handleCurrentChange="handleCurrentChange"
+			@handleSelectionChange="handleSelectionChange"
+			@handleSizeChange="handleSizeChange"
+			@tapProp="handleTapProp"
+		/>
+	</div>
 </template>
 
 <script>
+import { allFields } from './allField.js';
+import tableMixins from '../../../packages/mixins/table.js';
+import {
+	options as searchFieldOptions,
+	columns as searchFieldColumns,
+} from './searchField.js';
 export default {
+	mixins: [tableMixins],
 	data() {
 		return {
-			tableData: [
-				{
-					date: '2016-05-02',
-					name: '王小虎',
-					address: '上海市普陀区金沙江路 1518 弄',
-				},
-				// 更多数据...
-			],
+			allFields,
+			searchFieldOptions,
+			searchFieldColumns,
+			filters: {
+				status: 1,
+			}, // 查询表单的数据
 		};
+	},
+	watch: {},
+	mounted() {},
+	methods: {
+		handleTapProp() {},
 	},
 };
 </script>
+<style lang="scss" scoped>
+.box {
+	width: 100%;
+}
+</style>
 ```
 
 </details>
