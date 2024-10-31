@@ -5,4 +5,4 @@ import * as router from './modules/router';
 export const { OnlyCh, Phone } = regexp;
 export const { isNumber } = validate;
 export const { appendUrlParams } = formate;
-export const { loopRouter } = router;
+export const { loopRouter, getUrlMergeQuery, getQueryObject } = router;

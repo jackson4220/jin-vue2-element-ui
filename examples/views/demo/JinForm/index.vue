@@ -203,10 +203,12 @@ export default {
 					labelWidth: '80px',
 					size: 'mini',
 				},
-				// btns: { hide: true },
-				btns: { hide: false },
+				btns: {
+					hide: false,
+					searchBtnText: '确定',
+				},
 				col: { xs: 24, sm: 12 },
-				fold: { enable: true, defaultCollapsed: false },
+				fold: { enable: false, defaultCollapsed: false },
 			},
 			columns: [
 				{
@@ -242,10 +244,20 @@ export default {
 					type: 'select',
 					label: '性别',
 					field: 'sex',
-					options: [
-						{ label: '男', value: 1 },
-						{ label: '女', value: 0 },
-					],
+					options: [],
+					init: true,
+					request: async () => {
+						return new Promise((resolve) => {
+							setTimeout(() => {
+								resolve({
+									data: [
+										{ label: '男', value: 1 },
+										{ label: '女', value: 0 },
+									],
+								});
+							}, 1000);
+						});
+					},
 				},
 				{
 					type: 'date-picker',
@@ -332,7 +344,7 @@ export default {
 				{
 					type: 'cascader',
 					label: '城市',
-					span: 10,
+					span: 24,
 					field: 'city',
 					options: cityOptions,
 					disabled: (i) => i.status === 0,

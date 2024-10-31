@@ -141,7 +141,6 @@ export default {
 		},
 	},
 	async mounted() {
-		console.log(this.$attrs);
 		if (this.sticky === false) return;
 
 		// wait for nested element rendering

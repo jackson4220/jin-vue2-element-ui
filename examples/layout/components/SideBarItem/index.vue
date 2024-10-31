@@ -45,11 +45,8 @@ export default {
 		this.loadSysMenu();
 	},
 	methods: {
-		loadSysMenu() {
-			// console.log('menu', this.menuList)
-		},
+		loadSysMenu() {},
 		selectItem(name, path) {
-			// alert(name)
 			this.$router.push({ name });
 			this.$store.commit('router/UPDATE_MENU_ACTIVE_NAME', name);
 		},

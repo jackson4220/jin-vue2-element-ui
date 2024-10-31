@@ -1,15 +1,12 @@
 import { omit, cloneDeep, debounce } from 'lodash';
-import * as api from 'axios';
-// console.log('🚀🚀🚀----api:', api);
-// import { successCode } from '@/config';
-// import { getUserConfig, updateUserConfig } from '@/api/user';
-// import * as api from '@/api/bean';
 const successCode = [0];
 
 export default {
 	data() {
 		return {
-			model: {},
+			model: {
+				isReplaceRouter: true,
+			},
 
 			loading: false,
 			list: [], // 列表数据
@@ -19,21 +16,9 @@ export default {
 				page: 1,
 				total: 0,
 			},
-			configKey: '',
 			isFirst: true,
-			configFields: [],
-			configData: null,
 			showFields: [],
-			dialog: {
-				visible: false,
-				row: null,
-			},
-			header: {
-				visible: false,
-			},
-			customSearchDialog: {
-				visible: false,
-			},
+
 			multipleSelection: [],
 		};
 	},
@@ -50,8 +35,27 @@ export default {
 		if (this.model && !this.model.isGetUrlParams) {
 			const params = omit(query, ['size', 'page']);
 			this.filters = { ...this.filters, ...params };
+			for (const key in this.filters) {
+				if (
+					this.filters[key] &&
+					typeof this.filters[key] === 'string' &&
+					this.filters[key].includes(',')
+				) {
+					this.filters[key] = this.filters[key].split(',');
+				}
+			}
 		} else {
 			this.filters = { ...this.filters };
+			//检测是否能split(,)，如果能split(,)，则转换为数组
+			for (const key in this.filters) {
+				if (
+					this.filters[key] &&
+					typeof this.filters[key] === 'string' &&
+					this.filters[key].includes(',')
+				) {
+					this.filters[key] = this.filters[key].split(',');
+				}
+			}
 		}
 
 		if (typeof this.init === 'function') {
@@ -69,45 +73,11 @@ export default {
 		await this.getList();
 	},
 	methods: {
-		async initShowFields() {
-			let res;
-			if (this.configKey) {
-				res = await getUserConfig(this.configKey);
-			} else {
-				res = { errorCode: 0, data: {} };
-			}
-			if (res && successCode.includes(res.errorCode)) {
-				this.configData = res.data;
-				let th = [];
-				if (res.data) {
-					let data = null;
-					if (Object.prototype.toString.call(res.data) === '[object String]') {
-						data = JSON.parse(res.data);
-					} else {
-						data = res.data;
-					}
-
-					if (this.model.anotherPageSize) {
-						th = data.th;
-						this.pager.size = this.model.anotherPageSize;
-					} else {
-						if (data) {
-							th = data.th;
-							if (data.pageSize && this.isFirst) {
-								this.pager.size = data.pageSize;
-							}
-						}
-					}
-				} else {
-					if (this.model.anotherPageSize) {
-						this.pager.size = this.model.anotherPageSize;
-					}
-				}
-				this.refreshFields(th);
-			}
+		searchReset() {
+			this.filters = {};
+			this.getList();
 		},
-		refreshFields(th = []) {
-			this.configFields = th;
+		async initShowFields(th = []) {
 			let allFields = cloneDeep(this.allFields);
 			allFields = allFields.map((item) => {
 				if (this.formatterMap && this.formatterMap[item.prop]) {
@@ -129,128 +99,9 @@ export default {
 				this.showFields = allFields;
 			}
 		},
-		//自定义查询--开始
-		showCustomSearchDialog() {
-			this.customSearchDialog.visible = true;
-		},
-		cancelCustomSearchDialog() {
-			this.customSearchDialog.visible = false;
-		},
-		//自定义查询--结束
-		showHeaderCfg() {
-			this.header.visible = true;
-		},
-		cancelHeaderCfg() {
-			this.header.visible = false;
-		},
-		headerCfgSuccess(list = []) {
-			this.header.visible = false;
-			this.refreshFields(list);
-		},
-		showDialog(row = null) {
-			this.dialog.row = row;
-			this.dialog.visible = true;
-		},
-		cancelDialog() {
-			this.dialog.row = null;
-			this.dialog.visible = false;
-		},
-		submitSuccess() {
-			this.dialog.visible = false;
-			this.getList();
-		},
+
 		handleSelectionChange(val) {
 			this.multipleSelection = val;
-		},
-		/**
-		 * 批量删除(url/ids)
-		 * @returns
-		 */
-		async batchRemove() {
-			if (!this.multipleSelection.length) {
-				this.$notify({
-					title: '警告',
-					type: 'warning',
-					message: '请选择需要删除的记录！',
-				});
-				return;
-			}
-			const ids = this.multipleSelection.map((item) => {
-				return item.id;
-			});
-			try {
-				const confirm = await this.$confirm(
-					`确认删除选中${this.model.name}？`,
-					'提示',
-					{
-						confirmButtonText: '确定',
-						cancelButtonText: '取消',
-						type: 'warning',
-						dangerouslyUseHTMLString: true,
-					}
-				);
-
-				if (confirm) {
-					const res = await api.batchDeleteBean(
-						this.model.delUri ? this.model.delUri : this.model?.uri,
-						ids.join(',')
-					);
-					if (res && successCode.includes(res.errorCode)) {
-						this.$notify.success({
-							title: '成功',
-							message: '删除成功！',
-						});
-						this.getList();
-					}
-				}
-			} catch (e) {
-				console.log(e);
-			}
-		},
-		/**
-		 * 批量删除(url?ids=xxx)
-		 * @returns
-		 */
-		async batchRemoveParams() {
-			if (!this.multipleSelection.length) {
-				this.$notify({
-					title: '警告',
-					type: 'warning',
-					message: '请选择需要删除的记录！',
-				});
-				return;
-			}
-			const ids = this.multipleSelection.map((item) => {
-				return item.id;
-			});
-			try {
-				const confirm = await this.$confirm(
-					`确认删除选中${this.model.name}？`,
-					'提示',
-					{
-						confirmButtonText: '确定',
-						cancelButtonText: '取消',
-						type: 'warning',
-						dangerouslyUseHTMLString: true,
-					}
-				);
-
-				if (confirm) {
-					const res = await api.delBean(
-						this.model.delUri ? this.model.delUri : this.model?.uri,
-						{ ids: ids.join(',') }
-					);
-					if (res && successCode.includes(res.errorCode)) {
-						this.$notify.success({
-							title: '成功',
-							message: '删除成功！',
-						});
-						this.getList();
-					}
-				}
-			} catch (e) {
-				console.log(e);
-			}
 		},
 		/**
 		 * 每页显示条数变化
@@ -259,25 +110,7 @@ export default {
 		async handleSizeChange(size) {
 			this.pager.page = 1;
 			this.pager.size = size;
-			let data = {};
-			if (
-				Object.prototype.toString.call(this.configData) === '[object String]'
-			) {
-				data = JSON.parse(this.configData);
-			} else {
-				data = this.configData || {};
-			}
-			data.pageSize = size;
 			this.getList();
-			if (!this.configKey) return;
-			const params = {
-				configKey: this.configKey,
-				configValue: JSON.stringify(data),
-			};
-			/* const res = await updateUserConfig(params);
-			if (res && successCode.includes(res.errorCode)) {
-				this.initShowFields();
-            } */
 			this.initShowFields();
 		},
 		/**
@@ -310,7 +143,6 @@ export default {
 					}
 				}
 			}
-			console.log('🚀🚀🚀----params:', params);
 			return params;
 		},
 		replaceRouter(pager, filters) {
@@ -337,7 +169,6 @@ export default {
 			) {
 				return filters;
 			}
-			console.log('🚀🚀🚀----filters:', filters);
 			return this.getSearchParams(filters);
 		},
 		async getList() {
@@ -349,7 +180,7 @@ export default {
 				if (
 					this.model &&
 					typeof this.model.isReplaceRouter !== 'undefined' &&
-					!this.model.isReplaceRouter
+					this.model.isReplaceRouter
 				) {
 					this.replaceRouter(this.pager, params);
 				}
@@ -364,20 +195,15 @@ export default {
 					}
 				}
 
-				if (api.sourceMap[this.model?.uri]) {
-					api.sourceMap[this.model?.uri].cancel('精确取消');
-				}
-
 				let res = null;
-				if (this.model && this.model.requestType == 'Post') {
-					if (this.model.contentType == 'Json') {
-						res = await api.addBeanJson(this.model.uri, args);
-					} else {
-						res = await api.addBean(this.model.uri, args);
-					}
+				if (
+					this.model &&
+					this.model.requestFun &&
+					typeof this.model.requestFun === 'function'
+				) {
+					res = await this.model.requestFun(args);
 				} else {
-					//默认get请求
-					res = await api.getBeanList(this.model.uri, args);
+					this.$message.error('缺少表单请求方法');
 				}
 
 				if (res && successCode.includes(res.errorCode)) {

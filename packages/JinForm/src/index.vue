@@ -1,6 +1,6 @@
 <template>
 	<el-form ref="formRefC" v-bind="options.form" :model="value">
-		<el-row :gutter="14" v-bind="options.row" class="w-full">
+		<el-row :gutter="0" v-bind="options.row" class="w-full">
 			<template v-for="(item, index) in columns">
 				<el-col
 					:key="item.field"
@@ -13,7 +13,7 @@
 						v-bind="item"
 						:align="item.align || 'left'"
 						:label="item.label"
-						:field="item.field"
+						:prop="item.field"
 						:rules="item.rules"
 						:disabled="isDisabled(item.disabled)"
 					>
@@ -44,22 +44,34 @@
 			</template>
 			<el-col
 				v-if="!options.btns.hide"
-				:span="options.btns ? options.btns.span : 12"
-				:v-bind="options.btns ? options.btns.col : {}"
+				:span="options.btns.span ? options.btns.span : 12"
+				v-bind="options.btns.col ? options.btns.col : {}"
 			>
+				<!-- :push="options.btns.push ? options.btns.push : 20" -->
+				<!-- type="flex" -->
+				<!-- :justify="options.btns.justify ? options.btns.justify : 'end'" -->
 				<template>
-					<el-button type="primary" @click="$emit('search')">
+					<el-button
+						type="primary"
+						@click="handleSubmit"
+						:size="options.form.size ? options.form.size : 'small'"
+					>
+						<!-- $emit('search') -->
 						{{
 							options.btns && options.btns.searchBtnText
 								? options.btns.searchBtnText
 								: '搜索'
 						}}
 					</el-button>
-					<el-button @click="reset">重置</el-button>
+					<el-button
+						:size="options.form.size ? options.form.size : 'small'"
+						@click="reset"
+						>重置</el-button
+					>
 					<el-button
 						v-if="options.fold && options.fold.enable"
 						type="text"
-						size="mini"
+						:size="options.form.size ? options.form.size : 'small'"
 						@click="collapsed = !collapsed"
 					>
 						<template v-slot:icon>
@@ -75,7 +87,7 @@
 </template>
 
 <script>
-// import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash';
 
 export default {
 	name: 'JinForm',
@@ -98,6 +110,7 @@ export default {
 			collapsed: this.options.fold?.defaultCollapsed ?? false,
 			dicData: {},
 			hasCascaderColumns: [],
+			initForm: {},
 		};
 	},
 	computed: {
@@ -126,20 +139,13 @@ export default {
 										.includes(this.value[i.field])
 								) {
 									const res = { ...this.value, [i.field]: undefined };
-									console.log('🚀🚀🚀----res1:', res);
 									this.$emit('input', res);
 								}
 							});
 						} else if (i.request && !newVal[item.field]) {
 							this.$set(this.dicData, i.field, []);
 							const res = { ...this.value, [i.field]: undefined };
-							console.log('🚀🚀🚀----res2:', res);
 							this.$emit('input', res);
-
-							/* this.$emit('input', {
-								...this.value,
-								[i.field]: undefined,
-							}); */
 						}
 					});
 				}
@@ -226,10 +232,18 @@ export default {
 			if (typeof disabled === 'function') return disabled(this.value);
 		},
 		reset() {
-			console.log('🚀🚀🚀----this.$refs.formRefC:', this.$refs.formRefC);
-			this.$nextTick(() => {
-				this.$refs.formRefC?.resetFields();
-			});
+			this.$refs.formRefC.resetFields();
+			this.$emit('input', this.initForm);
+		},
+		async handleSubmit() {
+			try {
+				const res = await this.$refs.formRefC.validate();
+				if (res) {
+					this.$emit('search');
+				}
+			} catch (error) {
+				console.log(error);
+			}
 		},
 	},
 	created() {
@@ -251,10 +265,19 @@ export default {
 				this.hasCascaderColumns.push(item);
 			}
 		});
+
+		this.initForm = cloneDeep(this.value);
 	},
 };
 </script>
 
-<!-- <style lang="scss" scoped>
+<style lang="scss" scoped>
 /* 这里可以添加你的样式 */
-</style> -->
+::v-deep .el-form-item__content {
+	.el-select,
+	.el-input,
+	.el-cascader {
+		width: 100%;
+	}
+}
+</style>

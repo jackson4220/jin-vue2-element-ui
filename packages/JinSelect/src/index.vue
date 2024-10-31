@@ -48,7 +48,7 @@
 
 <script>
 import { cloneDeep } from 'lodash';
-import { isNumber } from '~/js';
+import { isNumber } from '../../js';
 
 export default {
 	name: 'JinSelect',

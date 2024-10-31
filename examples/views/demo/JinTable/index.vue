@@ -1,5 +1,17 @@
 <template>
-	<div>
+	<div class="box">
+		<JinForm
+			v-model="filters"
+			ref="formRef"
+			label-width="80px"
+			:inline="false"
+			size="normal"
+			:options="searchFieldOptions"
+			:columns="searchFieldColumns"
+			@reset="searchReset"
+			@search="getList"
+		>
+		</JinForm>
 		<JinTable
 			:list="list"
 			:loading="loading"
@@ -15,23 +27,35 @@
 </template>
 
 <script>
-import { allFields } from './allFiles.js';
+import { allFields } from './allField.js';
 import tableMixins from '~/mixins/table.js';
-
+import {
+	options as searchFieldOptions,
+	columns as searchFieldColumns,
+} from './searchField.js';
 export default {
 	mixins: [tableMixins],
 	data() {
 		return {
 			allFields,
+			searchFieldOptions,
+			searchFieldColumns,
+			// options,
+			// columns,
+			filters: {
+				status: 1,
+			}, // 查询表单的数据
 		};
 	},
 	watch: {},
-	mounted() {
-		console.log(this.allFields);
-	},
+	mounted() {},
 	methods: {
 		handleTapProp() {},
 	},
 };
 </script>
-<style scoped></style>
+<style lang="scss" scoped>
+.box {
+	width: 100%;
+}
+</style>

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { isNumber, appendUrlParams } from '~/js';
+import { isNumber, appendUrlParams } from '../../js';
 
 export default {
 	name: 'JinImage',

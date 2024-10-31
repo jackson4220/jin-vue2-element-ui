@@ -18,6 +18,7 @@
 			@expand-change="expandChange"
 			@selection-change="handleSelectionChange"
 			@sort-change="sortChange"
+			size="small"
 		>
 			<slot v-if="showSelection" name="selection">
 				<el-table-column
@@ -242,10 +243,10 @@
 // import { baseURL } from '@/config';
 // import { mapGetters } from 'vuex';
 // import { marked } from 'marked';
-import { appendUrlParams } from '~/js';
+import { appendUrlParams } from '../../js';
 
-import StickyTable from '~/JinStickyTable/src/index.vue';
-import UiImage from '~/JinImage/src/index.vue';
+import StickyTable from '../../JinStickyTable/src/index.vue';
+import UiImage from '../../JinImage/src/index.vue';
 
 export default {
 	name: 'JinTable',
@@ -335,6 +336,10 @@ export default {
 			default: (row) => {
 				return row?.id;
 			},
+		},
+		size: {
+			type: String,
+			default: 'small',
 		},
 	},
 	data() {
@@ -468,28 +473,6 @@ export default {
 				}
 			};
 		},
-		/* isRenderHtmlLabel() {
-			// 显示在表格中的列
-			return (data) => {
-				data = data.replace('marked', '');
-				data = data.replaceAll('</br>', '');
-				data = data.replaceAll('#999', '#333');
-				// 表格里面的摘要不显示图片
-				data = data.replaceAll('<img  src=', '<font>');
-				data = data.replaceAll('width="100%"/>', '</font>');
-				data = data.replaceAll('table', 'span');
-				data = data.replaceAll('tr', 'span');
-				data = data.replaceAll('td', 'span');
-				return marked.parse(data);
-			};
-		}, */
-		/* isRenderHtml() {
-			// 鼠标移过去显示
-			return (data) => {
-				data = data.replace('marked', '');
-				return marked.parse(data);
-			};
-		}, */
 		maxHeight() {
 			const height = document.body.clientHeight;
 			if (this.offHeight) {
@@ -501,7 +484,6 @@ export default {
 	watch: {
 		showFields: {
 			handler(val) {
-				console.log('🚀🚀🚀----val:', val);
 				this.rendered = false;
 				this.$nextTick(() => {
 					this.rendered = true;
