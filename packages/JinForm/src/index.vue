@@ -215,8 +215,9 @@ export default {
 			return { ...obj, ...item.props };
 		},
 		valueChange(value, field) {
-			console.log('🚀🚀🚀----value, field:', value, field);
-			this.$emit('input', { ...this.value, [field]: value });
+			// console.log('🚀🚀🚀----value, field:', value, field);
+			const obj = { ...this.value, [field]: value };
+			this.$emit('input', obj);
 		},
 		upLoadChange(file, fileList, field, item) {
 			if (item.resultFormat) {

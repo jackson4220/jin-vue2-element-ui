@@ -331,6 +331,8 @@ export default {
 					type: 'switch',
 					label: '是否隐藏',
 					field: 'hide',
+					activeValue: 1,
+					inactiveValue: 0,
 					item: { extra: '隐藏成绩项' },
 				},
 				{
@@ -356,7 +358,11 @@ export default {
 					span: 24,
 					field: 'city',
 					options: cityOptions,
-					disabled: (i) => i.status === 0,
+					// disabled: (i) => i.status === 0,
+					hide: (i) => {
+						i.status === 0 && (i.city = []); //隐藏时清空值
+						return i.status === 0;
+					},
 				},
 				{
 					type: 'tree-select',

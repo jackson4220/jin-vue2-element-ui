@@ -1,4 +1,3 @@
-import * as Regexp from '~/js';
 const cityOptions = [
 	{
 		value: 'zhinan',
@@ -241,8 +240,7 @@ export const columns = [
 		options: cityOptions,
 		// disabled: (i) => i.status === 0,
 		hide: (i) => {
-			console.log('🚀🚀🚀----i:', i);
-			i.status && (i.city = []);
+			i.status === 0 && (i.city = []); //隐藏时清空值
 			return i.status === 0;
 		},
 	},

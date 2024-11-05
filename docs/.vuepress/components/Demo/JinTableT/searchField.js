@@ -1,4 +1,3 @@
-import * as Regexp from '~/js';
 const cityOptions = [
 	{
 		value: 'zhinan',

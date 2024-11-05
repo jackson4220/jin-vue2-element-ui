@@ -7246,6 +7246,11 @@ markdown-it-emoji@^1.4.0:
   resolved "https://registry.npmmirror.com/markdown-it-emoji/-/markdown-it-emoji-1.4.0.tgz#9bee0e9a990a963ba96df6980c4fddb05dfb4dcc"
   integrity sha512-QCz3Hkd+r5gDYtS2xsFXmBYrgw6KuWcJZLCEkdfAuwzZbShCmCfta+hwAMq4NX/4xPzkSHduMKgMkkPUJxSXNg==
 
+markdown-it-import@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmmirror.com/markdown-it-import/-/markdown-it-import-0.2.0.tgz#4769e3b6a679335ebe2e833d53c4dd5d2e251d95"
+  integrity sha512-VozFLF94LfbnK8Pn9701alhfVGdDaBnR5ap2W14GL7LvOnpLnIrpn26Ov+bqgazbcnGRiZavpg8P/UZQKNtZRA==
+
 markdown-it-table-of-contents@^0.4.0:
   version "0.4.4"
   resolved "https://registry.npmmirror.com/markdown-it-table-of-contents/-/markdown-it-table-of-contents-0.4.4.tgz#3dc7ce8b8fc17e5981c77cc398d1782319f37fbc"
@@ -11153,6 +11158,11 @@ vuepress-html-webpack-plugin@^3.2.0:
     tapable "^1.0.0"
     toposort "^1.0.0"
     util.promisify "1.0.0"
+
+vuepress-plugin-code-copy@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.npmmirror.com/vuepress-plugin-code-copy/-/vuepress-plugin-code-copy-1.0.6.tgz#6431dab764b48b5b203e4936d98b1943651ce4ad"
+  integrity sha512-FiqwMtlb4rEsOI56O6sSkekcd3SlESxbkR2IaTIQxsMOMoalKfW5R9WlR1Pjm10v6jmU661Ex8MR11k9IzrNUg==
 
 vuepress-plugin-container@^2.0.2:
   version "2.1.5"
