@@ -5,11 +5,12 @@
 				<!-- v-show="colVShow(index)" -->
 				<el-col
 					:key="item.field"
-					v-if="!isHide(item.hide) && colVShow(index)"
+					v-if="!isHide(item.hide)"
 					:span="item.span || 12"
 					v-bind="item.col || item.span ? item.col : options.col"
 				>
 					<el-form-item
+						v-show="colVShow(index)"
 						v-bind="item"
 						:align="item.align || 'left'"
 						:label="item.label"
@@ -125,6 +126,7 @@ export default {
 					const arr = this.columns.filter((a) =>
 						item?.cascader?.includes(a.field)
 					);
+					console.log('🚀🚀🚀----arr:', arr);
 					arr.forEach((i) => {
 						if (i.request && Boolean(newVal[item.field])) {
 							i.request(this.value).then((res) => {
@@ -213,6 +215,7 @@ export default {
 			return { ...obj, ...item.props };
 		},
 		valueChange(value, field) {
+			console.log('🚀🚀🚀----value, field:', value, field);
 			this.$emit('input', { ...this.value, [field]: value });
 		},
 		upLoadChange(file, fileList, field, item) {

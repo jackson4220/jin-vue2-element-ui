@@ -41,7 +41,7 @@ export default {
 			searchFieldOptions,
 			searchFieldColumns,
 			filters: {
-				status: 1,
+				status: 0,
 			}, // 查询表单的数据
 		};
 	},

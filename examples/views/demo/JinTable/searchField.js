@@ -241,6 +241,7 @@ export const columns = [
 		options: cityOptions,
 		// disabled: (i) => i.status === 0,
 		hide: (i) => {
+			console.log('🚀🚀🚀----i:', i);
 			i.status && (i.city = []);
 			return i.status === 0;
 		},

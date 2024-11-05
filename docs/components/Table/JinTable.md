@@ -36,26 +36,25 @@
 </template>
 
 <script>
-import { allFields } from './allField.js';
-import tableMixins from '../../../packages/mixins/table.js';
-import {
-	options as searchFieldOptions,
-	columns as searchFieldColumns,
-} from './searchField.js';
 export default {
-	mixins: [tableMixins],
 	data() {
 		return {
-			allFields,
-			searchFieldOptions,
-			searchFieldColumns,
 			filters: {
 				status: 1,
 			}, // 查询表单的数据
 		};
 	},
-	watch: {},
-	mounted() {},
+	async mounted() {
+		const { allFields } = await import('./allField.js');
+		const tableMixins = await import('../../../packages/mixins/table.js');
+		const { options: searchFieldOptions, columns: searchFieldColumns } =
+			await import('./searchField.js');
+
+		this.allFields = allFields;
+		this.searchFieldOptions = searchFieldOptions;
+		this.searchFieldColumns = searchFieldColumns;
+		this.mixins = [tableMixins.default];
+	},
 	methods: {
 		handleTapProp() {},
 	},

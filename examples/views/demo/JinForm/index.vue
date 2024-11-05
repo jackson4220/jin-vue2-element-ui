@@ -422,10 +422,11 @@ export default {
 	},
 	watch: {
 		form: {
-			deep: true,
 			handler(val) {
 				console.log('🚀🚀🚀----val:', val);
 			},
+			deep: true,
+			immediate: true,
 		},
 	},
 	methods: {
