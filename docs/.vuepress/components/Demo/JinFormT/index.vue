@@ -1,14 +1,14 @@
 <template>
 	<div>
-		<JinTableDemo />
+		<JinFormDemo />
 	</div>
 </template>
 
 <script>
-import JinTableDemo from '../../../../../examples/views/demo/JinTable/index.vue';
+import JinFormDemo from '../../../../../examples/views/demo/JinForm/index.vue';
 export default {
 	components: {
-		JinTableDemo,
+		JinFormDemo,
 	},
 };
 </script>

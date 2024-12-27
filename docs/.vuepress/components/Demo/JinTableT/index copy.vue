@@ -27,13 +27,14 @@
 </template>
 
 <script>
-import { allFields } from './allField.js';
-import tableMixins from '../../../../packages/mixins/table.js';
+import { allFields } from '../../../../../examples/views/demo/JinTable/allField.js';
+import tableMixins from '../../../../../packages/mixins/table.js';
 import {
 	options as searchFieldOptions,
 	columns as searchFieldColumns,
-} from './searchField.js';
+} from '../../../../../examples/views/demo/JinTable/searchField.js';
 export default {
+	name: 'JinTableT',
 	mixins: [tableMixins],
 	data() {
 		return {
@@ -41,7 +42,7 @@ export default {
 			searchFieldOptions,
 			searchFieldColumns,
 			filters: {
-				status: 0,
+				status: 1,
 			}, // 查询表单的数据
 		};
 	},

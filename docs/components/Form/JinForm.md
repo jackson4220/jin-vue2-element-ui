@@ -6,7 +6,17 @@
 
 ## 基本用法
 
-::: demo 适用广泛的基础表单
+<!-- ::: demo 适用广泛的基础表单
+
+```vue
+
+```
+
+::: -->
+
+<Demo-JinFormT-index/>
+
+## 代码
 
 ```vue
 <template>
@@ -25,6 +35,12 @@
 </template>
 
 <script>
+//使用依赖包
+// import * as Regexp from 'jin-element-ui/packages/js/modules/regexp.js';
+
+//本地引入
+import * as Regexp from '../../../../packages/js/modules/regexp.js';
+
 const cityOptions = [
 	{
 		value: 'zhinan',
@@ -186,6 +202,7 @@ const deptData = [
 		],
 	},
 ];
+
 export default {
 	data() {
 		return {
@@ -235,7 +252,11 @@ export default {
 					rules: [
 						{ required: true, message: '请输入姓名' },
 						{ maxLength: 4, message: '姓名不超过4个字符' },
-						{ match: this.$Regexp.OnlyCh, message: '仅支持中文姓名' },
+						{
+							validator: (...args) =>
+								Regexp.validator(args, Regexp.OnlyCh, '仅支持中文姓名'),
+							trigger: 'blur',
+						},
 					],
 				},
 				{
@@ -245,7 +266,11 @@ export default {
 					props: { maxLength: 11 },
 					rules: [
 						{ required: true, message: '请输入手机号' },
-						{ match: this.$Regexp.Phone, message: '手机号格式不正确' },
+						{
+							validator: (...args) =>
+								Regexp.validator(args, Regexp.Phone, '请输入正确手机号'),
+							trigger: 'blur',
+						},
 					],
 				},
 				//请求远程示例
@@ -452,8 +477,6 @@ export default {
 </script>
 <style scoped></style>
 ```
-
-:::
 
 ## 属性
 
