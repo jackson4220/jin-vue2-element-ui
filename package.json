@@ -1,6 +1,6 @@
 {
 	"name": "jin-element-ui",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Vue 中基于Element-ui二次封装组件库",
 	"author": "huang-jiajin",
 	"license": "MIT",

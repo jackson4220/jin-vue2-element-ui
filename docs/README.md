@@ -34,10 +34,10 @@ npm install jin-component-library
 ## 使用
 
 ```javascript
-import JinComponentLibrary from 'jin-component-library';
-import 'jin-component-library/dist/jin-component-library.css';
+import JinElementUi from 'jin-element-ui';
+// import 'jin-element-ui/dist/jin-component-library.css';
 
-Vue.use(JinComponentLibrary);
+Vue.use(JinElementUi);
 ```
 
 ## 贡献
