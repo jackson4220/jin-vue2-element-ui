@@ -16,6 +16,6 @@ jobs:
         env:
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
         run: |
-          git remote add gitee https://gitee.com/your-gitee-username/your-repo.git
-          git pull gitee main
-          git push origin main
+          git remote add gitee https://gitee.com/huang-jiajin/jiajin-vue2-element-ui
+          git pull gitee master
+          git push origin master
