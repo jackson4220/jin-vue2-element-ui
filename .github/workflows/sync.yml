@@ -1,0 +1,21 @@
+name: Sync from Gitee
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [gitee_sync]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Sync with Gitee
+        env:
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        run: |
+          git remote add gitee https://gitee.com/your-gitee-username/your-repo.git
+          git pull gitee main
+          git push origin main
