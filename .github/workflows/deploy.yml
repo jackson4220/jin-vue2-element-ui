@@ -3,7 +3,7 @@ name: Build and deploy
 run-name: Deploy by @${{ github.actor }}
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 jobs:
   build:
