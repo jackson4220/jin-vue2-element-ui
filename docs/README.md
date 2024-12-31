@@ -28,7 +28,7 @@ footer: MIT Licensed | Copyright © 2023-present Jin Component Library
 ## 安装
 
 ```bash
-npm install jin-component-library
+npm install jin-element-ui
 ```
 
 ## 使用
