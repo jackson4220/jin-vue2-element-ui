@@ -14,7 +14,7 @@ module.exports = {
 					children: [
 						'/components/Form/JinForm',
 						'/components/Table/JinTable',
-						// 如果有其他组件，继续添加
+						// Add other components here
 					],
 				},
 			],
@@ -56,8 +56,8 @@ module.exports = {
 								babelrc: false,
 								configFile: false,
 								presets: [
-									'@babel/preset-env', // 可以识别es6语法
-									'@vue/babel-preset-jsx', // 解析jsx语法
+									'@babel/preset-env', // For ES6 syntax
+									'@vue/babel-preset-jsx', // For JSX syntax
 								],
 							},
 						},
@@ -79,10 +79,11 @@ module.exports = {
 			'vuepress-plugin-typescript',
 			{
 				tsLoaderOptions: {
-					// ts-loader 的所有配置项
+					// All ts-loader options can be specified here
 				},
 			},
 		],
+		// Uncomment if needed
 		// ['@vuepress/plugins-back-to-top', false],
 		[
 			'vuepress-plugin-gotop-plus',
