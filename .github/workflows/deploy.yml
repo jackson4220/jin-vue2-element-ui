@@ -1,29 +1,22 @@
-# 工作流的名称
+# .github/workflows/deploy.yml
 name: Build and deploy
-# 从工作流生成的工作流运行的名称
 run-name: Deploy by @${{ github.actor }}
-# 触发工作流的事件
 on:
   push:
-    branches: [main] # 当 main 分支有新的推送时，此工作流会被启动。
-  workflow_dispatch: # 或者手动触发工作流时，此工作流会被启动。
-# 当前流程要执行的任务
+    branches: [main]
+  workflow_dispatch:
 jobs:
   build:
-    # 这部分指定了作业将在 ubuntu-latest 环境下运行。
     runs-on: ubuntu-latest
-    # 每个任务下的运行步骤，短横杠 - 表示一个步骤，从上至下依次执行。
     steps:
-      - name: checkout # 检出代码
-        uses: actions/checkout@v2 # 使用 actions/checkout action 检出代码到工作空间。
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # 这一步安装 Node.js v14。
-      - name: Use Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
           node-version: '14'
 
-      # 缓存 npm node_modules
       - name: Cache dependencies
         uses: actions/cache@v2
         id: npm-cache
@@ -35,23 +28,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-cache-
 
-      # 安装依赖 npm
       - name: Install dependencies
-        # 如果没有命中缓存才执行 npm install
-        if: steps.npm-cache.outputs['cache-hit'] != 'true'
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm install
 
-      # 运行构建脚本
-      - name: Run Build Script
+      - name: Run build script
         run: npm run docs:build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          # 部署到 FrontPages 分支
           publish_branch: FrontPages
-          # 部署目录为 VuePress 的默认输出目录
           publish_dir: docs/.vuepress/dist
         env:
-          # 当前仓库的密钥
           ACTIONS_DEPLOY_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}

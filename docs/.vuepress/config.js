@@ -42,6 +42,7 @@ module.exports = {
 			alias: {
 				'~': 'packages',
 			},
+			mainFields: ['browser', 'module', 'main'], // Ensure these fields are resolved
 		},
 		module: {
 			rules: [
