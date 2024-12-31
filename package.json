@@ -19,6 +19,7 @@
 		"deploy": "deploy.sh"
 	},
 	"dependencies": {
+		"throttle-debounce": "^2.1.0",
 		"@babel/register": "^7.25.9",
 		"@vuepress-reco/vuepress-plugin-extract-code": "^1.0.4",
 		"async-validator": "^4.2.5",

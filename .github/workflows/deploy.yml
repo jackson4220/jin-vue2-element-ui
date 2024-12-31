@@ -29,8 +29,9 @@ jobs:
             ${{ runner.os }}-npm-cache-
 
       - name: Install dependencies
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm install
+        run: |
+          npm install
+          npm install throttle-debounce@2.1.0 --save
 
       - name: Run build script
         run: npm run docs:build

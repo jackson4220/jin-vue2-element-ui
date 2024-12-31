@@ -41,6 +41,8 @@ module.exports = {
 		resolve: {
 			alias: {
 				'~': 'packages',
+				'throttle-debounce':
+					'throttle-debounce/dist/throttle-debounce.modern.js',
 			},
 			mainFields: ['browser', 'module', 'main'], // Ensure these fields are resolved
 		},
