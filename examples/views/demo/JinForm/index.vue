@@ -201,7 +201,12 @@ export default {
 				sort: 0,
 				city: [],
 				dept: [],
-				file: 'https://inews.gtimg.com/om_bt/Os3eJ8u3SgB3Kd-zrRRhgfR5hUvdwcVPKUTNO6O7sZfUwAA/641',
+				fileList: [
+					{
+						name: 'test.png',
+						url: 'https://inews.gtimg.com/om_bt/Os3eJ8u3SgB3Kd-zrRRhgfR5hUvdwcVPKUTNO6O7sZfUwAA/641',
+					},
+				],
 			},
 			options: {
 				form: {
@@ -422,6 +427,7 @@ export default {
 						},
 					},
 					resultFormat: (arr) => {
+						console.log('🚀🚀🚀----arr:', arr);
 						return arr.map((item) => {
 							if (item.status !== 'success') {
 								return item;
