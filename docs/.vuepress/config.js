@@ -41,8 +41,7 @@ module.exports = {
 		resolve: {
 			alias: {
 				'~': 'packages',
-				'throttle-debounce':
-					'throttle-debounce/dist/throttle-debounce.modern.js',
+				'throttle-debounce': 'throttle-debounce/esm/index.js',
 			},
 			mainFields: ['browser', 'module', 'main'], // Ensure these fields are resolved
 		},
@@ -97,4 +96,5 @@ module.exports = {
 		],
 		'@vuepress-reco/extract-code',
 	],
+	base: '/jin-vue2-element-ui/',
 };
