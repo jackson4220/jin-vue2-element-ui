@@ -23,6 +23,12 @@
 							:name="item.field"
 							v-bind="{ disabled: isDisabled(item.disabled) }"
 						>
+							<!--
+                            这里也能用
+                            v-bind="_attrs(child, formData)"
+                            v-on="$listeners"
+                            监听所有父组件的属性和事件/传递所有子组件的事件
+                            -->
 							<component
 								:is="getComponentBindProps(item).comName"
 								v-bind="getComponentBindProps(item)"
