@@ -1,45 +1,31 @@
 # .github/workflows/deploy.yml
-name: Build and deploy
-run-name: Deploy by @${{ github.actor }}
+name: Deploy VuePress site to Pages
+
 on:
   push:
-    branches: [master]
-  workflow_dispatch:
+    branches: [master] # 根据您的默认分支修改，可能是 master 或 main
+
 jobs:
-  build:
+  deploy-docs:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        id: npm-cache
-        with:
-          path: |
-            ~/.npm
-            **/node_modules
-          key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-cache-
+          node-version: '16'
 
       - name: Install dependencies
-        run: |
-          npm install
-          npm install throttle-debounce@2.1.0 --save
+        run: npm install
 
-      - name: Run build script
-        run: npm run docs:build
+      - name: Build VuePress site
+        run: npm run docs:build # 确保这与您 package.json 中的构建命令一致
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          publish_branch: FrontPages
-          publish_dir: docs/.vuepress/dist
-        env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          folder: docs/.vuepress/dist # 确保这是您的构建输出目录
+          branch: gh-pages
