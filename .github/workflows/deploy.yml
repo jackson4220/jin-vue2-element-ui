@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install --legacy-peer-deps
-          npm install throttle-debounce@3.0.1
+          npm install throttle-debounce@2.3.0
 
       - name: Build VuePress site
         run: npm run docs:build # 确保这与您 package.json 中的构建命令一致
