@@ -21,8 +21,10 @@ import dayjs from 'dayjs';
 // 解决低版本浏览器不支持es6
 // Es6Promise.polyfill()
 import * as Regexp from '../../packages/js';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css'; // 或其他主题
 
-export default ({ Vue }) => {
+export default ({ Vue, options, router, siteData }) => {
 	// Vue.use(VueHighlightJS),
 	Vue.use(ElementUI),
 		Vue.use(JinUi),
@@ -40,4 +42,20 @@ export default ({ Vue }) => {
 	// Object.keys(filters).forEach(key => {
 	//   Vue.filter(key, filters[key])
 	// })
+
+	Vue.directive('highlight', {
+		deep: true,
+		bind(el, binding) {
+			const blocks = el.querySelectorAll('pre code');
+			blocks.forEach((block) => {
+				hljs.highlightBlock(block);
+			});
+		},
+		componentUpdated(el) {
+			const blocks = el.querySelectorAll('pre code');
+			blocks.forEach((block) => {
+				hljs.highlightBlock(block);
+			});
+		},
+	});
 };
