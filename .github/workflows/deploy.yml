@@ -15,12 +15,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '14.16.0'
 
       - name: Install dependencies
         run: |
           npm install --legacy-peer-deps
-          npm install throttle-debounce@2.3.0 --save-exact
+          npm install throttle-debounce@1.0.1 --save-exact
           npm install element-ui@2.15.6 --save-exact
 
       - name: Build VuePress site
