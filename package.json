@@ -19,7 +19,7 @@
 		"deploy": "deploy.sh"
 	},
 	"dependencies": {
-		"throttle-debounce": "^2.1.0",
+		"throttle-debounce": "1.0.1",
 		"@babel/register": "^7.25.9",
 		"@vuepress-reco/vuepress-plugin-extract-code": "^1.0.4",
 		"async-validator": "^4.2.5",
@@ -28,7 +28,7 @@
 		"core-js": "^3.6.5",
 		"dayjs": "^1.8.33",
 		"el-table-horizontal-scroll": "^1.2.5",
-		"element-ui": "^2.15.14",
+		"element-ui": "2.15.6",
 		"es6-promise": "^4.2.8",
 		"highlight.js": "^10.7.3",
 		"js-cookie": "^2.2.1",

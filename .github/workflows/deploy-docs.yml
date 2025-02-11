@@ -1,9 +1,8 @@
-# .github/workflows/deploy.yml
 name: Deploy VuePress site to Pages
 
 on:
   push:
-    branches: [master] # 根据您的默认分支修改，可能是 master 或 main
+    branches: [main]
 
 jobs:
   deploy-docs:
@@ -21,13 +20,14 @@ jobs:
       - name: Install dependencies
         run: |
           npm install --legacy-peer-deps
-          npm install throttle-debounce@2.3.0
+          npm install throttle-debounce@2.3.0 --save-exact
+          npm install element-ui@2.15.6 --save-exact
 
       - name: Build VuePress site
-        run: npm run docs:build # 确保这与您 package.json 中的构建命令一致
+        run: npm run docs:build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: docs/.vuepress/dist # 确保这是您的构建输出目录
+          folder: docs/.vuepress/dist
           branch: gh-pages

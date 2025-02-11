@@ -1,6 +1,9 @@
+const path = require('path');
+
 module.exports = {
 	title: 'My Component Library',
 	description: 'A custom component library based on Element UI',
+	base: '/jin-vue2-element-ui/',
 	themeConfig: {
 		nav: [
 			{ text: '首页', link: '/' },
@@ -12,38 +15,33 @@ module.exports = {
 					title: '组件',
 					collapsable: true,
 					children: [
-						'/components/Form/JinForm',
-						'/components/Table/JinTable',
-						// Add other components here
+						{ title: 'Form', path: '/components/Form/JinForm' },
+						{ title: 'Table', path: '/components/Table/JinTable' },
 					],
-				},
-			],
-			'/components/Form/': [
-				{
-					title: 'Form',
-					collapsable: false,
-					children: ['JinForm'],
-				},
-			],
-			'/components/Table/': [
-				{
-					title: 'Table',
-					collapsable: false,
-					children: ['JinTable'],
 				},
 			],
 		},
 	},
-	chainWebpack(config) {
-		config.resolve.alias.set('core-js/library/fn', 'core-js/features');
-	},
 	configureWebpack: {
 		resolve: {
 			alias: {
-				'~': 'packages',
-				'throttle-debounce': 'throttle-debounce/index.js',
+				'~': path.resolve(__dirname, 'packages'),
+				'throttle-debounce': path.resolve(
+					__dirname,
+					'../../node_modules/throttle-debounce'
+				),
+				'throttle-debounce/debounce': path.resolve(
+					__dirname,
+					'../../node_modules/throttle-debounce/debounce'
+				),
+				'throttle-debounce/throttle': path.resolve(
+					__dirname,
+					'../../node_modules/throttle-debounce/throttle'
+				),
 			},
-			mainFields: ['browser', 'module', 'main'], // Ensure these fields are resolved
+		},
+		externals: {
+			'throttle-debounce': 'throttle-debounce',
 		},
 		module: {
 			rules: [
@@ -51,22 +49,11 @@ module.exports = {
 					test: /\.tsx?$/,
 					exclude: /node_modules/,
 					use: [
-						'cache-loader',
-						{
-							loader: 'babel-loader',
-							options: {
-								babelrc: false,
-								configFile: false,
-								presets: [
-									'@babel/preset-env', // For ES6 syntax
-									'@vue/babel-preset-jsx', // For JSX syntax
-								],
-							},
-						},
+						'babel-loader',
 						{
 							loader: 'ts-loader',
 							options: {
-								appendTsxSuffixTo: [/\.vue$/, /\.md$/],
+								appendTsxSuffixTo: [/\.vue$/],
 							},
 						},
 					],
@@ -76,25 +63,20 @@ module.exports = {
 	},
 	plugins: [
 		['demo-container'],
-		['vuepress-plugin-code-copy', true],
+		['vuepress-plugin-code-copy'],
 		[
 			'vuepress-plugin-typescript',
 			{
 				tsLoaderOptions: {
-					// All ts-loader options can be specified here
+					configFile: path.resolve(__dirname, 'tsconfig.json'),
 				},
 			},
 		],
-		// Uncomment if needed
-		// ['@vuepress/plugins-back-to-top', false],
-		[
-			'vuepress-plugin-gotop-plus',
-			{
-				// mobileShow: false,
-				threshold: 150,
-			},
-		],
-		'@vuepress-reco/extract-code',
 	],
-	base: '/jin-vue2-element-ui/',
+	chainWebpack: (config) => {
+		config.resolve.modules
+			.add(path.resolve(__dirname, '../../node_modules'))
+			.add('node_modules')
+			.end();
+	},
 };
