@@ -41,7 +41,7 @@ module.exports = {
 			},
 		},
 		externals: {
-			'throttle-debounce': 'throttle-debounce',
+			// 'throttle-debounce': 'throttle-debounce',
 		},
 		module: {
 			rules: [
